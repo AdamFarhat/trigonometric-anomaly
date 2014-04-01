@@ -53,9 +53,9 @@ public class PlayerMovement : MonoBehaviour {
 		direction *= maxSpeed;
 		steering = direction - currentVelocity;
 
-		Debug.DrawLine(myPosition, myPosition + this.transform.forward * 5f, Color.black);
-		Debug.DrawLine(myPosition, direction, Color.red);
-		Debug.DrawLine(myPosition, steering, Color.green);
+		Debug.DrawLine(myPosition, myPosition + this.transform.forward * 5f, Color.white);
+		Debug.DrawLine(myPosition, myPosition + direction, Color.red);
+		Debug.DrawLine(myPosition, myPosition + steering, Color.green);
 
 		currentVelocity += steering/mass;
 
