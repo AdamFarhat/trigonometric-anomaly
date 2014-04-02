@@ -1,8 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\PlayerMovement.cs">
+<<<<<<< HEAD
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Shots.cs">
     <Files>
-      <File FileName="Assets\PlayerMovement.cs" Line="47" Column="35" />
+      <File FileName="Assets\Shots.cs" Line="97" Column="1" />
+      <File FileName="Assets\Shots.cs" Line="36" Column="91" />
+      <File FileName="Assets\Shooting.cs" Line="1" Column="1" />
+=======
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Behaviour.cs">
+    <Files>
+      <File FileName="Assets\EnemySpawning.cs" Line="29" Column="4" />
+      <File FileName="Assets\Shooting.cs" Line="1" Column="1" />
+      <File FileName="Assets\Behaviour.cs" Line="6" Column="37" />
+      <File FileName="Assets\EnumScript.cs" Line="13" Column="4" />
+>>>>>>> 5d9f58ad6d655a770369922b9b6530702220c44e
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
