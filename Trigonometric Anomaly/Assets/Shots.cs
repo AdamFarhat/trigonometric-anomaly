@@ -3,8 +3,11 @@ using System.Collections;
 
 public class Shots : MonoBehaviour {
 
-	public bool charge = false;
+	public bool sine = false;
+	float rotationSpeed = 5.0f;
+	public Transform parentt;
 	bool isCharging = false;
+	float degrees = 10;
 	GameObject obj;
 	public GameObject sphere;
 	float startTime;
@@ -28,10 +31,10 @@ public class Shots : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//print (isCharging);
 		KTest();
-		//SinTest ();
-		//ChargeTest ();
+
+		//transform.RotateAround( Vector3.up, 10f * Time.deltaTime);
+
 
 		if (!boundingBox.GetComponent<BoxCollider> ().bounds.Contains (this.transform.position))
 						Destroy (gameObject);
@@ -45,21 +48,29 @@ public class Shots : MonoBehaviour {
 	
 	public void KTest()
 	{
+						Vector3 direction = clickPosition - charPosition;
 		
-		Vector3 direction = clickPosition - charPosition;
+						direction.y = 0;
 		
-		direction.y = 0;
+						float distance = direction.magnitude;
 		
-		float distance = direction.magnitude;
+						float speed = 15.0f;
 		
-		float speed = 12.0f;
+						Vector3 move = direction.normalized * Time.deltaTime * speed;
 		
-		Vector3 move = direction.normalized * Time.deltaTime * speed;
-		
-		transform.position += move;	
+						transform.position += move;	
 
-		Debug.DrawLine(charPosition, transform.position, Color.green, 100);
+						if (sine == true) {
+							transform.Rotate(0,rotationSpeed*Time.deltaTime,0);
+						}
+
+						Debug.DrawLine (charPosition, transform.position, Color.green, 100);
+				
 	}
+
+
+
+
 
 	public void ChargeTest()
 	{

@@ -7,6 +7,7 @@ public class Shooting : MonoBehaviour {
 	int shotType = 0;
 	bool machineGun = false;
 	bool chargeShot = false;
+	public bool sineShot = false;
 	float timer = 0.0f;
 	float timeMax = 0.2f;
 	Ray ray;
@@ -36,11 +37,13 @@ public class Shooting : MonoBehaviour {
 		if (Input.GetKey (KeyCode.Alpha3)) {
 			shotType = 2;
 		}
+		if (Input.GetKey (KeyCode.Alpha4)) {
+			shotType = 3;
+		}
 		timer += Time.deltaTime;
 
 		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-		
-		//ray=Camera.main.ScreenPointToRay(Input.mousePosition);
+
 		
 		hit = new RaycastHit ();
 
@@ -49,16 +52,24 @@ public class Shooting : MonoBehaviour {
 			case 0:
 				machineGun = false;
 				chargeShot = false;
+				sineShot = false;
 				break;
 
 			case 1:
 				machineGun = true;
 				chargeShot = false;
+				sineShot = false;
 				break;
 			case 2:
 				machineGun = false;
 				chargeShot = true;
+				sineShot = false;
 
+				break;
+			case 3:
+				machineGun = false;
+				chargeShot = false;
+				sineShot = true;
 				break;
 
 				}
@@ -76,6 +87,7 @@ public class Shooting : MonoBehaviour {
 
 				}
 			}
+
 			if(machineGun == true && shotType == 1)
 			{
 				if(Input.GetKey(KeyCode.Mouse0))
@@ -99,8 +111,29 @@ public class Shooting : MonoBehaviour {
 
 					obj.AddComponent<Shots>();
 					obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-					obj.GetComponent<Shots>().charge = chargeShot;
+
 					
+				}
+			}
+
+			if(sineShot == true && shotType == 3)
+			{
+				if(Input.GetMouseButtonDown(0))
+				{
+
+
+					testObj = new GameObject();
+					testObj.AddComponent<Shots>();
+					testObj.GetComponent<Shots>().sine = sineShot;
+					testObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+					testObj.transform.position = Player.transform.position;
+
+					obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+					obj.transform.parent = testObj.transform;
+					Vector3 holder = obj.transform.parent.position;
+
+					obj.transform.position = holder - new Vector3(0.5f,0,0.5f);
+					obj.AddComponent<WavyMovement>();
 				}
 			}
 
