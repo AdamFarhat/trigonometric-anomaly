@@ -77,7 +77,6 @@ public class Shooting : MonoBehaviour {
 		if(Physics.Raycast(ray,out hit))
 		{
 
-
 			if(machineGun == false && shotType == 0){
 				if(Input.GetMouseButtonDown(0))
 				{

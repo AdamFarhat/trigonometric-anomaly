@@ -20,15 +20,14 @@ public class EnemySpawning : MonoBehaviour {
 
 	void spawnEnemies(){
 		for (int i = 0; i < numberOfEnemies; ++i) {
-			Vector3 pos = new Vector3(Random.Range(box.bounds.min.x, box.bounds.max.x), 
+			Vector3 pos = new Vector3(Random.Range(box.bounds.min.x + 0.5f, box.bounds.max.x - 0.5f), 
 			                          0,
-			                          Random.Range(box.bounds.min.z, box.bounds.max.z));
+			                          Random.Range(box.bounds.min.z + 0.5f, box.bounds.max.z - 0.5f));
 			GameObject enemy = Instantiate (prefab, pos, Quaternion.identity) as GameObject;
 
-
-
-
-			enemy.GetComponent<Behaviour>().enemyType = EnumScript.EnemyType.A;
+			//Random number between 0 and number of enemy types - 1 (to account for NONE)
+			int enemyType = Random.Range (0, System.Enum.GetNames(typeof(EnumScript.EnemyType)).Length - 1);
+			enemy.GetComponent<Behaviour>().behaviourInt = enemyType;
 		}
 	}
 }
