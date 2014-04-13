@@ -5,23 +5,13 @@ public class Shots : MonoBehaviour {
 
 	public bool sine = false;
 	float rotationSpeed = 5.0f;
-	public Transform parentt;
 	bool isCharging = false;
-	float degrees = 10;
-	GameObject obj;
 	public GameObject sphere;
 	float startTime;
 	Transform childSphere;
-	Vector3 clickPosition;
-	Vector3 charPosition;
+	Vector3 clickedPosition;
+	Vector3 characterPosition;
 	public GameObject boundingBox;
-
-	public float CurveSpeed = 5;
-	public float MoveSpeed = 2;
-	
-	float fTime = 0;
-	Vector3 vLastPos = Vector3.zero;
-
 
 	// Use this for initialization
 	void Start () {
@@ -31,30 +21,26 @@ public class Shots : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		KTest();
+		movement();
 
-		//transform.RotateAround( Vector3.up, 10f * Time.deltaTime);
-
-
+		//Destroy Bullet when leaving Bounding Box
 		if (!boundingBox.GetComponent<BoxCollider> ().bounds.Contains (this.transform.position))
 						Destroy (gameObject);
 	}
 	
 	public  void PassPositions(Vector3 click, Vector3 character)
 	{
-		this.clickPosition = click;
-		this.charPosition = character;
+		this.clickedPosition = click;
+		this.characterPosition = character;
 	}
 	
-	public void KTest()
+	public void movement()
 	{
-						Vector3 direction = clickPosition - charPosition;
+						Vector3 direction = clickedPosition - characterPosition;
 		
 						direction.y = 0;
-		
-						float distance = direction.magnitude;
-		
-						float speed = 15.0f;
+
+						float speed = 20.0f;
 		
 						Vector3 move = direction.normalized * Time.deltaTime * speed;
 		
@@ -64,7 +50,7 @@ public class Shots : MonoBehaviour {
 							transform.Rotate(0,rotationSpeed*Time.deltaTime,0);
 						}
 
-						Debug.DrawLine (charPosition, transform.position, Color.green, 100);
+						Debug.DrawLine (characterPosition, transform.position, Color.green, 100);
 				
 	}
 
@@ -99,6 +85,8 @@ public class Shots : MonoBehaviour {
 //						Debug.DrawLine (charPosition, transform.position, Color.green, 100);
 //				}
 	}
+
+
 
 
 	

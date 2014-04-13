@@ -92,4 +92,11 @@ public class Behaviour : MonoBehaviour {
 				break;
 		}
 	}
+
+	void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.tag == "Bullet") {
+			Destroy(gameObject);
+				}
+	}
 }
