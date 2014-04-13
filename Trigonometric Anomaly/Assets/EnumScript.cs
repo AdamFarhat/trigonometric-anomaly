@@ -4,7 +4,8 @@ using System.Collections;
 public class EnumScript : MonoBehaviour {
 
 	public enum EnemyType{
-		WANDER,
+		BLUE_ENEMY,
+		GREEN_ENEMY,
 		NONE
 	};
 
