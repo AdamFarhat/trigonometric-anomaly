@@ -1,14 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Shooting.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Image Effects (Pro Only)\GlowEffect.cs">
     <Files>
+<<<<<<< HEAD
       <File FileName="Assets\Behaviour.cs" Line="1" Column="1" />
       <File FileName="Assets\Shooting.cs" Line="235" Column="1" />
+=======
+      <File FileName="Assets\Shooting.cs" Line="1" Column="1" />
+>>>>>>> 489e61566b8c3257a222edd13b5a5407ad6ffa9b
       <File FileName="Assets\Behaviour.cs" Line="1" Column="1" />
       <File FileName="Assets\Shots.cs" Line="1" Column="1" />
       <File FileName="Assets\EnumScript.cs" Line="1" Column="1" />
       <File FileName="Assets\PlayerMovement.cs" Line="1" Column="1" />
+<<<<<<< HEAD
       <File FileName="Assets\WavyMovement.cs" Line="1" Column="1" />
+=======
+      <File FileName="Assets\Standard Assets\Image Effects (Pro Only)\GlowEffect.cs" Line="151" Column="54" />
+>>>>>>> 489e61566b8c3257a222edd13b5a5407ad6ffa9b
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
