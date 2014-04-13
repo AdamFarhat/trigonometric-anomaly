@@ -89,7 +89,7 @@ public class Shooting : MonoBehaviour {
 							gameObject.GetComponent<AudioSource>().Play();
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj.AddComponent<Shots>();
-						obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+							obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
 						timer = 0;
 					}
 				
@@ -128,6 +128,7 @@ public class Shooting : MonoBehaviour {
 
 						obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
 						obj.AddComponent<WavyMovement>();
+						obj.GetComponent<WavyMovement>().isSingle = true;
 					}
 				}
 				else if(wavyMachineGun == 1)
@@ -150,6 +151,7 @@ public class Shooting : MonoBehaviour {
 						
 								obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
 								obj.AddComponent<WavyMovement>();
+								obj.GetComponent<WavyMovement>().isSingle = true;
 								timer = 0;
 						}
 					}
@@ -181,7 +183,9 @@ public class Shooting : MonoBehaviour {
 						obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
 						obj2.transform.position = holder1 + new Vector3(0.75f,0,0.75f);
 						obj.AddComponent<WavyMovement>();
+						obj.GetComponent<WavyMovement>().isSingle = false;
 						obj2.AddComponent<WavyMovement>();
+						obj2.GetComponent<WavyMovement>().isSingle = false;
 					}
 				}
 				else if(doubleWavyMachineGun == 1)
@@ -209,6 +213,8 @@ public class Shooting : MonoBehaviour {
 							obj2.transform.position = holder1 + new Vector3(0.75f,0,0.75f);
 							obj.AddComponent<WavyMovement>();
 							obj2.AddComponent<WavyMovement>();
+							obj.GetComponent<WavyMovement>().isSingle = false;
+							obj2.GetComponent<WavyMovement>().isSingle = false;
 							timer = 0;
 						}
 					}

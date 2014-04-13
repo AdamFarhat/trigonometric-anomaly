@@ -7,6 +7,7 @@ public class WavyMovement : MonoBehaviour {
 	public float WaveSpeed = 600f;
 	public float minDistance;
 	public Transform target;
+	public bool isSingle;
 	
 	void Start () {
 		target = transform.parent;
@@ -25,4 +26,24 @@ public class WavyMovement : MonoBehaviour {
 
 
 	}
+
+	void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.tag == "Enemy") {
+
+			if(isSingle == true)
+				collision.gameObject.GetComponent<Behaviour>().lowEnemyHealth -= 1f;
+			else if(isSingle == false)
+				collision.gameObject.GetComponent<Behaviour>().lowEnemyHealth -= 0.5f;
+
+			//Destroy(transform.parent.gameObject);
+				Destroy(gameObject);
+			
+			
+		}
+		
+		
+	}
+
+
 }

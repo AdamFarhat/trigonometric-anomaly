@@ -10,6 +10,8 @@ public class Behaviour : MonoBehaviour {
 	Material blueMat;
 	Material redMat;
 
+	public float lowEnemyHealth;
+
 	Vector3 targetPosition;
 	Vector3 cVelocity = new Vector3(0.1f, 0, 0.1f);
 	float maxAcceleration = 1.0f;
@@ -22,6 +24,7 @@ public class Behaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		lowEnemyHealth = 4f;
 		blueMat = Resources.Load ("Materials/blue") as Material;
 		redMat = Resources.Load ("Materials/red") as Material;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
@@ -33,6 +36,9 @@ public class Behaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (lowEnemyHealth == 0)
+						Destroy(gameObject);
 		boundaryCheck();
 	
 		switch(enemyType){
@@ -93,10 +99,10 @@ public class Behaviour : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider collision)
-	{
-		if (collision.gameObject.tag == "Bullet") {
-			Destroy(gameObject);
-				}
-	}
+//	void OnTriggerEnter(Collider collision)
+//	{
+//		if (collision.gameObject.tag == "Bullet") {
+//			Destroy(gameObject);
+//				}
+//	}
 }

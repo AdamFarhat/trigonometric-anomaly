@@ -12,6 +12,8 @@ public class Shots : MonoBehaviour {
 	Vector3 clickedPosition;
 	Vector3 characterPosition;
 	public GameObject boundingBox;
+	float dmg;
+	int shotType;
 
 	// Use this for initialization
 	void Start () {
@@ -87,7 +89,19 @@ public class Shots : MonoBehaviour {
 	}
 
 
+		void OnTriggerEnter(Collider collision)
+		{
+			if (collision.gameObject.tag == "Enemy") {
 
+					collision.gameObject.GetComponent<Behaviour>().lowEnemyHealth -= 1;
+				
+			Destroy(gameObject);
+					
+				}
+				
+
+		}
+		
 
 	
 	
