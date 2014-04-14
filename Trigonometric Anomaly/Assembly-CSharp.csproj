@@ -52,6 +52,7 @@
      <Compile Include="Assets\EnumScript.cs" />
      <Compile Include="Assets\FollowPlayer.cs" />
      <Compile Include="Assets\PlayerMovement.cs" />
+     <Compile Include="Assets\RandomRotation.cs" />
      <Compile Include="Assets\Shooting.cs" />
      <Compile Include="Assets\Shots.cs" />
      <Compile Include="Assets\ThirdPersonCamera.cs" />
