@@ -1,5 +1,6 @@
 ﻿<Properties>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerMovement.cs">
     <Files>
@@ -7,6 +8,8 @@
       <File FileName="Assets\Scripts\AsteroidSpawner.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlayerMovement.cs" Line="1" Column="1" />
 =======
+=======
+>>>>>>> d93b218d7f762d1cde684e1e83c8416e927eb41b
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\DestroyFarObject.cs">
     <Files>
@@ -16,6 +19,9 @@
       <File FileName="Assets\AsteroidParentCleaner.cs" Line="1" Column="1" />
       <File FileName="Assets\AsteroidDebris.cs" Line="1" Column="1" />
       <File FileName="Assets\DestroyFarObject.cs" Line="16" Column="29" />
+<<<<<<< HEAD
+>>>>>>> d93b218d7f762d1cde684e1e83c8416e927eb41b
+=======
 >>>>>>> d93b218d7f762d1cde684e1e83c8416e927eb41b
     </Files>
   </MonoDevelop.Ide.Workbench>
