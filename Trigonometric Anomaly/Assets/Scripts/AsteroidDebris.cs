@@ -6,6 +6,7 @@ public class AsteroidDebris : MonoBehaviour {
 	[SerializeField] private int max_debris = 5;
 	[SerializeField] private int debris_to_spawn = 0;
 	[SerializeField] private GameObject prefab = null;
+	[SerializeField] private GameObject explosion = null;
 	[SerializeField] private float immune_timer = 0.1f;
 	// Use this for initialization
 	void Start () {
