@@ -75,6 +75,9 @@ public class AsteroidSpawner : MonoBehaviour {
 
 					GameObject asteroid = (GameObject)AsteroidSpawner.Instantiate(prefab, spawnPoint, Quaternion.identity);
 
+					//Set the asteroids as a child to the spawner
+					asteroid.transform.parent = this.transform;
+
 					//Set a velocity to move near the player
 					rand = Random.insideUnitCircle;
 					rand_direction = new Vector3(rand.x, 0f, rand.y);
