@@ -8,6 +8,27 @@ public class PlayerMovement : MonoBehaviour {
 	[SerializeField] private Vector3 currentDirection = Vector3.zero;
 	[SerializeField] private float mass = 10.0f;
 	[SerializeField] Vector3 steering = Vector3.zero;
+	[SerializeField] public Vector3 position = Vector3.zero;
+
+	private static PlayerMovement _instance = null;
+	public static PlayerMovement Instance
+	{
+		get { return _instance; }
+	}
+	
+	void Awake()
+	{
+		if (_instance != null && _instance != this)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		else
+		{
+			_instance = this;
+		}
+		DontDestroyOnLoad(this.gameObject);
+	}
 
 
 	// Use this for initialization
@@ -18,6 +39,8 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		position = this.transform.position;
+
 		float delta_time = Time.deltaTime;
 		Vector3 myPosition = this.transform.position;
 		Vector3 targetPosition = this.transform.position;
