@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour {
 	[SerializeField] private float maxSpeed = 0.5f;
 	[SerializeField] private float maxAngularVelocity = 10f;
-	[SerializeField] public Vector3 currentVelocity = Vector3.zero;
+	[SerializeField] private Vector3 currentVelocity = Vector3.zero;
 	[SerializeField] private Vector3 currentDirection = Vector3.zero;
 	[SerializeField] private float mass = 10.0f;
 	[SerializeField] Vector3 steering = Vector3.zero;

@@ -92,12 +92,11 @@ public class Shots : MonoBehaviour {
 		void OnTriggerEnter(Collider collision)
 		{
 			if (collision.gameObject.tag == "Enemy") {
-
-					collision.gameObject.GetComponent<Behaviour>().lowEnemyHealth -= 1;
-				
-			Destroy(gameObject);
-					
-				}
+				collision.gameObject.GetComponent<Behaviour>().lowEnemyHealth -= 1;
+			}
+			
+			if (collision.gameObject.tag != "Player")
+				Destroy(gameObject);
 				
 
 		}

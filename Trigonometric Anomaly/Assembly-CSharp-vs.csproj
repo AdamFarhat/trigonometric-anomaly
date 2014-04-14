@@ -46,8 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\AsteroidDebris.cs" />
      <Compile Include="Assets\AsteroidSpawner.cs" />
      <Compile Include="Assets\Behaviour.cs" />
+     <Compile Include="Assets\CapSpeed.cs" />
      <Compile Include="Assets\EnemySpawning.cs" />
      <Compile Include="Assets\EnumScript.cs" />
      <Compile Include="Assets\FollowPlayer.cs" />
