@@ -21,10 +21,15 @@ public class Behaviour : MonoBehaviour {
 	Vector3 cVelocity = new Vector3(0.1f, 0, 0.1f);
 	float maxAcceleration = 1.0f;
 	float maxVelocity = 1.0f;
-	float timeBetweenUpdates = 1.0f/4.0f; //1/4
+	float timeBetweenUpdates = 1.0f/2.0f; //1/4
 	float wanderDegAngle;
 	float wanderRadianAngle;
 	float wanderRadius = 2.0f;
+	float rotationSpeed = 1.0f;
+	
+	float time = 0.0f;
+	
+	Vector3 wayPoint;
 	
 
 	// Use this for initialization
@@ -62,14 +67,16 @@ public class Behaviour : MonoBehaviour {
 	}
 
 	void blueBehaviour(){
-		wander();
+		transform.position += transform.TransformDirection(Vector3.forward) * 20f * Time.deltaTime;
+		Wander();
 	}
 
 	void greenBehaviour(){
 		playerPosition = GameObject.Find("Player").transform.position;
 		Vector3 direction = gameObject.transform.position - playerPosition;
 		if(direction.magnitude < FLEE_DISTANCE){
-			flee(direction);
+			//flee(direction);
+			Sflee(playerPosition);
 		}else{
 			wander();
 		}
@@ -81,6 +88,26 @@ public class Behaviour : MonoBehaviour {
 		if(velocity.magnitude < fleeVelocity){
 			gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
 		}
+
+
+	}
+
+	void Sflee(Vector3 position){
+
+		Vector3 direction = transform.position - position;
+		
+		direction.y = 0;
+		
+		if (direction.magnitude < FLEE_DISTANCE)
+		{
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
+			
+			Vector3 move = direction.normalized * 20f * Time.deltaTime;
+			
+			transform.position += move;
+		}
+		
+		
 	}
 
 	void wander(){
@@ -95,6 +122,20 @@ public class Behaviour : MonoBehaviour {
 		seek();
 	}
 
+	void Wander()
+	{
+		time += Time.deltaTime;
+		
+		if (time > 3)
+		{
+			wayPoint = Random.insideUnitSphere * 47;
+			wayPoint.y = 1.0f;
+			transform.LookAt(wayPoint);
+			
+			time = 0;
+		}
+	}
+
 	void seek(){
 		if(targetPosition != null){
 			Vector3 distance = targetPosition - gameObject.transform.position;
@@ -102,7 +143,8 @@ public class Behaviour : MonoBehaviour {
 			Vector3 velocity = cVelocity + (acceleration * timeBetweenUpdates);
 			gameObject.transform.LookAt (targetPosition);
 			if(velocity.magnitude < maxVelocity){
-				gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
+				gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 10f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
+
 			}
 		}
 	}
