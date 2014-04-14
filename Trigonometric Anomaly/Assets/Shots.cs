@@ -42,7 +42,7 @@ public class Shots : MonoBehaviour {
 		
 						direction.y = 0;
 
-						float speed = 20.0f;
+						float speed = 50.0f;
 		
 						Vector3 move = direction.normalized * Time.deltaTime * speed;
 		

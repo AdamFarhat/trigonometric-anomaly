@@ -4,10 +4,13 @@ using System.Collections;
 public class EnemySpawning : MonoBehaviour {
 
 	public GameObject prefab;
-	int numberOfEnemies = 100;	//10
+	int numberOfEnemies = 10;	//10
 	BoxCollider box;
 	const float EDGE_CONSTRAINT = 0.5f;
 	const float EDGE_SPAWN_CONSTRAINT = 1.5f;
+
+	float elapsedTime = 0.0f;
+	float maxTime = 5.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +21,12 @@ public class EnemySpawning : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		elapsedTime += Time.deltaTime;
+		if(elapsedTime > maxTime){
+			spawnEnemies();
+			elapsedTime = 0.0f;
+		}
+		
 	}
 
 	void correctBoxScale(){
@@ -35,10 +43,6 @@ public class EnemySpawning : MonoBehaviour {
 		for (int i = 0; i < numberOfEnemies; ++i) {
 			int enemyLoc = Random.Range(0,4);
 			Vector3 pos = getPosition(enemyLoc);			
-
-//			Vector3 pos = new Vector3(Random.Range(box.bounds.min.x + 0.5f, box.bounds.max.x - 0.5f), 
-//			                          0,
-//			                          Random.Range(box.bounds.min.z + 0.5f, box.bounds.max.z - 0.5f));
 			GameObject enemy = Instantiate (prefab, pos, Quaternion.identity) as GameObject;
 
 			//Random number between 0 and number of enemy types - 1 (to account for NONE)

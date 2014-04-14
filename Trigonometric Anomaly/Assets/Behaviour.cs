@@ -8,10 +8,15 @@ public class Behaviour : MonoBehaviour {
 	EnumScript.EnemyType enemyType;
 	BoxCollider box;
 	Material blueMat;
+	Material greenMat;
 	Material redMat;
 
 	public float lowEnemyHealth;
 
+	const float FLEE_DISTANCE = 15.0f;
+	float fleeAcceleration = 2.0f;
+	float fleeVelocity = 2.0f;
+	Vector3 playerPosition;
 	Vector3 targetPosition;
 	Vector3 cVelocity = new Vector3(0.1f, 0, 0.1f);
 	float maxAcceleration = 1.0f;
@@ -26,6 +31,7 @@ public class Behaviour : MonoBehaviour {
 	void Start () {
 		lowEnemyHealth = 4f;
 		blueMat = Resources.Load ("Materials/blue") as Material;
+		greenMat = Resources.Load("Materials/green") as Material;
 		redMat = Resources.Load ("Materials/red") as Material;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 
@@ -39,14 +45,41 @@ public class Behaviour : MonoBehaviour {
 
 		if (lowEnemyHealth == 0)
 						Destroy(gameObject);
-		boundaryCheck();
+//		boundaryCheck();
 	
 		switch(enemyType){
-			case EnumScript.EnemyType.WANDER:
-				wander();
+			//Most basic enemy type; random movement.
+			case EnumScript.EnemyType.BLUE_ENEMY:
+				blueBehaviour();
+				break;
+			//Random movement but will try to evade player.
+			case EnumScript.EnemyType.GREEN_ENEMY:
+				greenBehaviour();
 				break;
 			case EnumScript.EnemyType.NONE:
 				break;
+		}
+	}
+
+	void blueBehaviour(){
+		wander();
+	}
+
+	void greenBehaviour(){
+		playerPosition = GameObject.Find("Player").transform.position;
+		Vector3 direction = gameObject.transform.position - playerPosition;
+		if(direction.magnitude < FLEE_DISTANCE){
+			flee(direction);
+		}else{
+			wander();
+		}
+	}
+
+	void flee(Vector3 direction){
+		Vector3 acceleration = (direction / direction.magnitude) * fleeAcceleration;
+		Vector3 velocity = cVelocity + (acceleration * timeBetweenUpdates);
+		if(velocity.magnitude < fleeVelocity){
+			gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
 		}
 	}
 
@@ -88,11 +121,15 @@ public class Behaviour : MonoBehaviour {
 	
 	void intToEnum(){
 		switch(behaviourInt){
-			case 0:	//WANDER
-				enemyType = EnumScript.EnemyType.WANDER;
+			case 0:	//BLUE
+				enemyType = EnumScript.EnemyType.BLUE_ENEMY;
 				gameObject.renderer.material = blueMat;
 				break;
-			case 1:	//NONE
+			case 1: //GREEN
+				enemyType = EnumScript.EnemyType.GREEN_ENEMY;
+				gameObject.renderer.material = greenMat;
+				break;
+			case 2:	//NONE
 				enemyType = EnumScript.EnemyType.NONE;
 				gameObject.renderer.material = redMat;
 				break;
