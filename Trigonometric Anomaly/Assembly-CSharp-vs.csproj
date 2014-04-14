@@ -46,21 +46,22 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AsteroidDebris.cs" />
-     <Compile Include="Assets\AsteroidParentCleaner.cs" />
-     <Compile Include="Assets\AsteroidSpawner.cs" />
-     <Compile Include="Assets\Behaviour.cs" />
-     <Compile Include="Assets\CapSpeed.cs" />
-     <Compile Include="Assets\DestroyFarObject.cs" />
-     <Compile Include="Assets\EnemySpawning.cs" />
-     <Compile Include="Assets\EnumScript.cs" />
-     <Compile Include="Assets\FollowPlayer.cs" />
-     <Compile Include="Assets\PlayerMovement.cs" />
-     <Compile Include="Assets\RandomRotation.cs" />
-     <Compile Include="Assets\Shooting.cs" />
-     <Compile Include="Assets\Shots.cs" />
-     <Compile Include="Assets\ThirdPersonCamera.cs" />
-     <Compile Include="Assets\WavyMovement.cs" />
+     <Compile Include="Assets\Scripts\AsteroidDebris.cs" />
+     <Compile Include="Assets\Scripts\AsteroidParentCleaner.cs" />
+     <Compile Include="Assets\Scripts\AsteroidSpawner.cs" />
+     <Compile Include="Assets\Scripts\Behaviour.cs" />
+     <Compile Include="Assets\Scripts\CapSpeed.cs" />
+     <Compile Include="Assets\Scripts\DestroyFarObject.cs" />
+     <Compile Include="Assets\Scripts\EnemySpawning.cs" />
+     <Compile Include="Assets\Scripts\EnumScript.cs" />
+     <Compile Include="Assets\Scripts\FollowCamera.cs" />
+     <Compile Include="Assets\Scripts\FollowPlayer.cs" />
+     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\RandomRotation.cs" />
+     <Compile Include="Assets\Scripts\Shooting.cs" />
+     <Compile Include="Assets\Scripts\Shots.cs" />
+     <Compile Include="Assets\Scripts\ThirdPersonCamera.cs" />
+     <Compile Include="Assets\Scripts\WavyMovement.cs" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
