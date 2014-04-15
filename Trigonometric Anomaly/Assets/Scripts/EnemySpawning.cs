@@ -4,14 +4,11 @@ using System.Collections;
 public class EnemySpawning : MonoBehaviour {
 
 	public GameObject prefab;
-<<<<<<< HEAD
 	GameObject enemySpawner;
 	GameObject blues;
 	GameObject greens;
 	GameObject reds;
-=======
 	private GameObject enemiesHierarchy;
->>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
 	int numberOfEnemies = 10;	//10
 	BoxCollider box;
 	const float EDGE_CONSTRAINT = 0.5f;

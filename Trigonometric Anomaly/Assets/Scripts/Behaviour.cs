@@ -30,15 +30,8 @@ public class Behaviour : MonoBehaviour {
 	float wanderRadius = 2.0f;
 	float rotationSpeed = 1.0f;
 	
-<<<<<<< HEAD
-	
 	float time = 0.0f;
-=======
-	float time = 0.0f;
-	
-	Vector3 wayPoint;
->>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
-	
+
 	Vector3 wayPoint;
 
 	GameObject reds;
@@ -204,24 +197,6 @@ public class Behaviour : MonoBehaviour {
 	}
 
 	void Sflee(Vector3 position){
-
-		Vector3 direction = transform.position - position;
-		
-		direction.y = 0;
-		
-		if (direction.magnitude < FLEE_DISTANCE)
-		{
-			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
-			
-			Vector3 move = direction.normalized * 20f * Time.deltaTime;
-			
-			transform.position += move;
-		}
-		
-		
-	}
-
-	void Sflee(Vector3 position){
 		Vector3 direction = transform.position - position;
 		direction.y = 0;
 		
@@ -231,8 +206,6 @@ public class Behaviour : MonoBehaviour {
 			transform.position += move;
 		}
 	}
-		
-		
 
 	void computeTargetPosition(){
 		wanderDegAngle += Random.Range (-5.0f, 5.0f);
@@ -250,18 +223,9 @@ public class Behaviour : MonoBehaviour {
 		seek();
 	}
 
-<<<<<<< HEAD
 	void Wander(){
 		time += Time.deltaTime;
 		if (time > 3){
-=======
-	void Wander()
-	{
-		time += Time.deltaTime;
-		
-		if (time > 3)
-		{
->>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
 			wayPoint = Random.insideUnitSphere * 47;
 			wayPoint.y = 1.0f;
 			transform.LookAt(wayPoint);
