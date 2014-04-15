@@ -65,6 +65,7 @@
      <Compile Include="Assets\Scripts\Shooting.cs" />
      <Compile Include="Assets\Scripts\ShopWindow.cs" />
      <Compile Include="Assets\Scripts\Shots.cs" />
+     <Compile Include="Assets\Scripts\StartScreen.cs" />
      <Compile Include="Assets\Scripts\ThirdPersonCamera.cs" />
      <Compile Include="Assets\Scripts\WavyMovement.cs" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />
