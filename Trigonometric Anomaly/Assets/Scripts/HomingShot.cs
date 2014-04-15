@@ -57,7 +57,8 @@ public class HomingShot : MonoBehaviour {
 				{
 						transform.position += move;	
 				}
-
+		
+		transform.rotation = Quaternion.LookRotation(move);
 
 		Debug.DrawLine (characterPosition, transform.position, Color.green, 100);
 
