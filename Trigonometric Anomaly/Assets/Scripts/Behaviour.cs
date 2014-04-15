@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+//Flocking coding:http://gamedevelopment.tutsplus.com/tutorials/the-three-simple-rules-of-flocking-behaviors-alignment-cohesion-and-separation--gamedev-3444
 
 public class Behaviour : MonoBehaviour {
 
@@ -21,11 +24,27 @@ public class Behaviour : MonoBehaviour {
 	Vector3 cVelocity = new Vector3(0.1f, 0, 0.1f);
 	float maxAcceleration = 1.0f;
 	float maxVelocity = 1.0f;
-	float timeBetweenUpdates = 1.0f/4.0f; //1/4
+	float timeBetweenUpdates = 1.0f/2.0f; //1/4
 	float wanderDegAngle;
 	float wanderRadianAngle;
 	float wanderRadius = 2.0f;
+	float rotationSpeed = 1.0f;
 	
+<<<<<<< HEAD
+	
+	float time = 0.0f;
+=======
+	float time = 0.0f;
+	
+	Vector3 wayPoint;
+>>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
+	
+	Vector3 wayPoint;
+
+	GameObject reds;
+	float alignmentThreshold = 10.0f;
+	float cohesionThreshold = 60.0f;
+	float separationThreshold = 5.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -38,6 +57,8 @@ public class Behaviour : MonoBehaviour {
 		wanderDegAngle = Random.Range (0, 359);
 		wanderRadianAngle = wanderDegAngle * Mathf.Deg2Rad;
 		intToEnum();		
+
+		reds = GameObject.Find("Reds");
 	}
 	
 	// Update is called once per frame
@@ -56,23 +77,120 @@ public class Behaviour : MonoBehaviour {
 			case EnumScript.EnemyType.GREEN_ENEMY:
 				greenBehaviour();
 				break;
+			//Flocking behaviour
+			case EnumScript.EnemyType.RED_ENEMY:
+				redBehaviour();
+				break;
 			case EnumScript.EnemyType.NONE:
 				break;
 		}
 	}
 
 	void blueBehaviour(){
-		wander();
+		transform.position += transform.TransformDirection(Vector3.forward) * 20f * Time.deltaTime;
+		Wander();
 	}
 
 	void greenBehaviour(){
 		playerPosition = GameObject.Find("Player").transform.position;
 		Vector3 direction = gameObject.transform.position - playerPosition;
 		if(direction.magnitude < FLEE_DISTANCE){
-			flee(direction);
+			//flee(direction);
+			Sflee(playerPosition);
 		}else{
 			wander();
 		}
+	}
+
+	void redBehaviour(){		
+		reds = GameObject.Find("Reds");
+
+		float alignmentWeight = 0.001f;
+		float cohesionWeight = 0.05f;
+		float separationWeight = 0.1f;
+
+		foreach(Transform red in reds.GetComponentsInChildren<Transform>()){
+			if(red.name != "Reds"){
+				Vector3 alignment = computeAlignment(red.position);
+				Vector3 cohesion = computeCohesion(red.position);
+				Vector3 separation = computeSeparation(red.position);
+
+				red.position += alignment * alignmentWeight + cohesion * cohesionWeight + separation * separationWeight;
+			}
+		}
+		wander();
+	}
+
+	Vector3 computeAlignment(Vector3 position){
+		Vector3 v = new Vector3();
+		int nbCount = 0;
+		foreach(Transform red in reds.GetComponentsInChildren<Transform>()){
+			if(red.name != "Reds"){
+				if(red.transform.position != position){
+					float distance = Vector3.Distance(red.position, position);
+					if(distance < alignmentThreshold){
+						v.x += targetPosition.x;
+						v.z += targetPosition.z;
+						nbCount++;
+					}
+				}
+			}
+		}
+		if(nbCount == 0)
+			return v;
+		v.x /= nbCount;
+		v.z /= nbCount;
+		v.Normalize();
+		return v;
+	}
+
+	Vector3 computeCohesion(Vector3 position){
+		Vector3 v = new Vector3();
+		int nbCount = 0;
+		foreach(Transform red in reds.GetComponentsInChildren<Transform>()){
+			if(red.name != "Reds"){
+				if(red.transform.position != position){
+					float distance = Vector3.Distance(red.position, position);
+					if(distance < cohesionThreshold){
+						v.x += red.position.x;
+						v.z += red.position.z;
+						nbCount++;
+					}
+				}
+			}
+		}
+		if(nbCount == 0)
+			return v;
+		v.x /= nbCount;
+		v.z /= nbCount;
+		v = new Vector3(v.x - position.x, 0, v.z - position.z);
+		v.Normalize();
+		return v;
+	}
+
+	Vector3 computeSeparation(Vector3 position){
+		Vector3 pos = new Vector3();
+		int nbCount = 0;
+		foreach(Transform red in reds.GetComponentsInChildren<Transform>()){
+			if(red.name != "Reds"){
+				if(red.transform.position != position){
+					float distance = Vector3.Distance(red.position, position);
+					if(distance < separationThreshold){
+						pos.x += red.position.x - position.x;
+						pos.z += red.position.z - position.z;
+						nbCount++;
+					}
+				}
+			}
+		}
+		if(nbCount == 0)
+			return pos;
+		pos.x /= nbCount;
+		pos.z /= nbCount;
+		pos.x *= -1;
+		pos.z *= -1;
+		pos.Normalize();
+		return pos;
 	}
 
 	void flee(Vector3 direction){
@@ -81,18 +199,75 @@ public class Behaviour : MonoBehaviour {
 		if(velocity.magnitude < fleeVelocity){
 			gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
 		}
+
+
 	}
 
-	void wander(){
+	void Sflee(Vector3 position){
+
+		Vector3 direction = transform.position - position;
+		
+		direction.y = 0;
+		
+		if (direction.magnitude < FLEE_DISTANCE)
+		{
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
+			
+			Vector3 move = direction.normalized * 20f * Time.deltaTime;
+			
+			transform.position += move;
+		}
+		
+		
+	}
+
+	void Sflee(Vector3 position){
+		Vector3 direction = transform.position - position;
+		direction.y = 0;
+		
+		if (direction.magnitude < FLEE_DISTANCE){
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
+			Vector3 move = direction.normalized * 20f * Time.deltaTime;
+			transform.position += move;
+		}
+	}
+		
+		
+
+	void computeTargetPosition(){
 		wanderDegAngle += Random.Range (-5.0f, 5.0f);
 		wanderRadianAngle = wanderDegAngle * Mathf.Deg2Rad;
-
+		
 		float x = Mathf.Round (gameObject.transform.position.x + (wanderRadius * Mathf.Sin (wanderRadianAngle)));
 		float y = gameObject.transform.position.y;
 		float z = Mathf.Round (gameObject.transform.position.z + (wanderRadius * Mathf.Cos(wanderRadianAngle)));
-
+		
 		targetPosition = new Vector3(x,y,z);
+	}
+
+	void wander(){
+		computeTargetPosition();
 		seek();
+	}
+
+<<<<<<< HEAD
+	void Wander(){
+		time += Time.deltaTime;
+		if (time > 3){
+=======
+	void Wander()
+	{
+		time += Time.deltaTime;
+		
+		if (time > 3)
+		{
+>>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
+			wayPoint = Random.insideUnitSphere * 47;
+			wayPoint.y = 1.0f;
+			transform.LookAt(wayPoint);
+			
+			time = 0;
+		}
 	}
 
 	void seek(){
@@ -102,7 +277,8 @@ public class Behaviour : MonoBehaviour {
 			Vector3 velocity = cVelocity + (acceleration * timeBetweenUpdates);
 			gameObject.transform.LookAt (targetPosition);
 			if(velocity.magnitude < maxVelocity){
-				gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
+				gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 10f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
+
 			}
 		}
 	}
@@ -129,11 +305,16 @@ public class Behaviour : MonoBehaviour {
 				enemyType = EnumScript.EnemyType.GREEN_ENEMY;
 				gameObject.renderer.material = greenMat;
 				break;
-			case 2:	//NONE
+			case 2: //RED
+				enemyType = EnumScript.EnemyType.RED_ENEMY;
+				gameObject.renderer.material = redMat;
+				break;
+			case 3:	//NONE
 				enemyType = EnumScript.EnemyType.NONE;
 				gameObject.renderer.material = redMat;
 				break;
 		}
+		gameObject.transform.name = enemyType.ToString();
 	}
 
 //	void OnTriggerEnter(Collider collision)
