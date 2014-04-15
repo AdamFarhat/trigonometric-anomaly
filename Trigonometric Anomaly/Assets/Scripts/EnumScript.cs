@@ -9,5 +9,4 @@ public class EnumScript : MonoBehaviour {
 		RED_ENEMY,
 		NONE
 	};
-
 }

@@ -1,6 +1,15 @@
 ﻿<Properties>
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench />
+=======
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Behaviour.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Behaviour.cs" Line="33" Column="13" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+>>>>>>> 0d4d1773dcdbbcc680be21cc15d98b3458203668
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
