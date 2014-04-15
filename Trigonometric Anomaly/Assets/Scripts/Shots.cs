@@ -25,6 +25,8 @@ public class Shots : MonoBehaviour {
 		
 		movement();
 		
+		transform.LookAt(clickedPosition);
+		
 		//Destroy Bullet when leaving Bounding Box
 		if (!boundingBox.GetComponent<BoxCollider> ().bounds.Contains (this.transform.position))
 			Destroy (gameObject);

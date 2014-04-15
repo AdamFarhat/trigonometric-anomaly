@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\AsteroidDebris.cs" />
      <Compile Include="Assets\Scripts\AsteroidParentCleaner.cs" />
      <Compile Include="Assets\Scripts\AsteroidSpawner.cs" />
+     <Compile Include="Assets\Scripts\BackgroundImage.cs" />
      <Compile Include="Assets\Scripts\Behaviour.cs" />
      <Compile Include="Assets\Scripts\CapSpeed.cs" />
      <Compile Include="Assets\Scripts\DestroyAfterTime.cs" />
