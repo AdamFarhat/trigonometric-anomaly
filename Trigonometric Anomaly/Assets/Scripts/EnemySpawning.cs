@@ -4,10 +4,14 @@ using System.Collections;
 public class EnemySpawning : MonoBehaviour {
 
 	public GameObject prefab;
+<<<<<<< HEAD
 	GameObject enemySpawner;
 	GameObject blues;
 	GameObject greens;
 	GameObject reds;
+=======
+	private GameObject enemiesHierarchy;
+>>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
 	int numberOfEnemies = 10;	//10
 	BoxCollider box;
 	const float EDGE_CONSTRAINT = 0.5f;
@@ -18,6 +22,7 @@ public class EnemySpawning : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		enemiesHierarchy = new GameObject("Enemies"); 
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 		//correctBoxScale();
 		if(GameObject.Find("Enemy Spawner") == null){
@@ -57,6 +62,7 @@ public class EnemySpawning : MonoBehaviour {
 			int enemyLoc = Random.Range(0,4);
 			Vector3 pos = getPosition(enemyLoc);			
 			GameObject enemy = Instantiate (prefab, pos, Quaternion.identity) as GameObject;
+			enemy.transform.parent = enemiesHierarchy.transform;
 
 			//Random number between 0 and number of enemy types - 1 (to account for NONE)
 			int enemyType = Random.Range (0, System.Enum.GetNames(typeof(EnumScript.EnemyType)).Length - 1);

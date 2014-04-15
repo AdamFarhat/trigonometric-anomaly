@@ -30,8 +30,14 @@ public class Behaviour : MonoBehaviour {
 	float wanderRadius = 2.0f;
 	float rotationSpeed = 1.0f;
 	
+<<<<<<< HEAD
 	
 	float time = 0.0f;
+=======
+	float time = 0.0f;
+	
+	Vector3 wayPoint;
+>>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
 	
 	Vector3 wayPoint;
 
@@ -81,14 +87,16 @@ public class Behaviour : MonoBehaviour {
 	}
 
 	void blueBehaviour(){
-		wander();
+		transform.position += transform.TransformDirection(Vector3.forward) * 20f * Time.deltaTime;
+		Wander();
 	}
 
 	void greenBehaviour(){
 		playerPosition = GameObject.Find("Player").transform.position;
 		Vector3 direction = gameObject.transform.position - playerPosition;
 		if(direction.magnitude < FLEE_DISTANCE){
-			flee(direction);
+			//flee(direction);
+			Sflee(playerPosition);
 		}else{
 			wander();
 		}
@@ -191,6 +199,26 @@ public class Behaviour : MonoBehaviour {
 		if(velocity.magnitude < fleeVelocity){
 			gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
 		}
+
+
+	}
+
+	void Sflee(Vector3 position){
+
+		Vector3 direction = transform.position - position;
+		
+		direction.y = 0;
+		
+		if (direction.magnitude < FLEE_DISTANCE)
+		{
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
+			
+			Vector3 move = direction.normalized * 20f * Time.deltaTime;
+			
+			transform.position += move;
+		}
+		
+		
 	}
 
 	void Sflee(Vector3 position){
@@ -222,9 +250,18 @@ public class Behaviour : MonoBehaviour {
 		seek();
 	}
 
+<<<<<<< HEAD
 	void Wander(){
 		time += Time.deltaTime;
 		if (time > 3){
+=======
+	void Wander()
+	{
+		time += Time.deltaTime;
+		
+		if (time > 3)
+		{
+>>>>>>> d7cf0ff21260d506ce5e764e8c31acb06812341e
 			wayPoint = Random.insideUnitSphere * 47;
 			wayPoint.y = 1.0f;
 			transform.LookAt(wayPoint);
@@ -240,7 +277,8 @@ public class Behaviour : MonoBehaviour {
 			Vector3 velocity = cVelocity + (acceleration * timeBetweenUpdates);
 			gameObject.transform.LookAt (targetPosition);
 			if(velocity.magnitude < maxVelocity){
-				gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
+				gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, targetPosition, 10f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
+
 			}
 		}
 	}

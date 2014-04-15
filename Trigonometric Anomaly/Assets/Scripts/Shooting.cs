@@ -3,24 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Shooting : MonoBehaviour {
-
+	
 	AudioClip Trigger;
 	//Used for Bullet Types
 	int shotType = 0;
 	int MachineGun;
 	int wavyMachineGun;
 	int doubleWavyMachineGun;
+	int homingGun;
 	bool machineGun = false;
 	bool chargeShot = false;
 	public bool sineShot = false;
 	float timer = 0.0f;
 	float timeInterval = 0.2f;
-
+	
 	//For Direction of Bullet
 	Ray ray;
 	RaycastHit hit;
-
-
+	
+	
 	//Player and other GameObjects
 	public GameObject prefab;
 	GameObject obj;
@@ -33,100 +34,105 @@ public class Shooting : MonoBehaviour {
 		MachineGun = 0;
 		wavyMachineGun = 0;
 		doubleWavyMachineGun = 0;
+		homingGun = 0;
 		Player = GameObject.FindGameObjectWithTag("Player");
 	}
-
-
+	
+	
 	
 	// Update is called once per frame
 	void Update () {
-
-        //Single Shot
+		
+		//Single Shot
 		if(Input.GetKeyUp (KeyCode.Alpha1))
-		   {
+		{
 			MachineGun = 1 - MachineGun;
 			shotType = 0;
-			}
-
-       
-        //Wavy Shot
+		}
+		
+		
+		//Wavy Shot
 		if (Input.GetKeyUp (KeyCode.Alpha2)) {
 			wavyMachineGun = 1 - wavyMachineGun;
 			shotType = 1;
 		}
-
+		
 		//Double Wavy Shot
 		if (Input.GetKeyUp (KeyCode.Alpha3)) {
 			doubleWavyMachineGun = 1 - doubleWavyMachineGun;
 			shotType = 2;
 		}
-
+		//Homing Shot
+		if (Input.GetKeyUp (KeyCode.Alpha4)) {
+			shotType = 3;
+		}
+		
 		timer += Time.deltaTime;
-
+		
 		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		
 		hit = new RaycastHit ();
-
+		
 		if(Physics.Raycast(ray,out hit))
 		{
 			if(shotType == 0)
 			{
-			if(MachineGun == 0){
-				if(Input.GetMouseButtonDown(0)== true)
-				{
+				if(MachineGun == 0){
+					if(Input.GetMouseButtonDown(0)== true)
+					{
 						gameObject.GetComponent<AudioSource>().Play();
-					obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-					obj.AddComponent<Shots>();
-					obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-
-				}
-			}
-			else if(MachineGun == 1)
-			{
-				if(Input.GetKey(KeyCode.Mouse0))
-				{
-					if (timer >= timeInterval){
-							gameObject.GetComponent<AudioSource>().Play();
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj.AddComponent<Shots>();
-							obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-						timer = 0;
+						obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+						
 					}
-				
+				}
+				else if(MachineGun == 1)
+				{
+					if(Input.GetKey(KeyCode.Mouse0))
+					{
+						if (timer >= timeInterval){
+							gameObject.GetComponent<AudioSource>().Play();
+							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj.AddComponent<Shots>();
+							obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+							timer = 0;
+						}
+						
+					}
 				}
 			}
-			}
-
-//			if(chargeShot == true && shotType == 2)
-//			{
-//				if(Input.GetMouseButtonDown(0))
-//				{
-//					obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-//					obj.AddComponent<Shots>();
-//					obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-//
-//					
-//				}
-//			}
+			
+			//			if(chargeShot == true && shotType == 2)
+			//			{
+			//				if(Input.GetMouseButtonDown(0))
+			//				{
+			//					obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+			//					obj.AddComponent<Shots>();
+			//					obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+			//
+			//					
+			//				}
+			//			}
 			if(shotType == 1){
 				if(wavyMachineGun == 0)
 				{
 					if(Input.GetMouseButtonDown(0))
 					{
 						gameObject.GetComponent<AudioSource>().Play();
-                   	 //Create empty Object for bullet to follow
+						//Create empty Object for bullet to follow
 						parentObj = new GameObject();
 						parentObj.AddComponent<Shots>();
 						parentObj.GetComponent<Shots>().sine = sineShot;
 						parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
 						parentObj.transform.position = Player.transform.position;
-
-                   	 //Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
+						
+						//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj.transform.parent = parentObj.transform;
 						Vector3 holder = obj.transform.parent.position;
-
-						obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
+						
+						obj.transform.position = holder - new Vector3(1.5f, 0, 0.25f);
 						obj.AddComponent<WavyMovement>();
 						obj.GetComponent<WavyMovement>().isSingle = true;
 					}
@@ -134,30 +140,30 @@ public class Shooting : MonoBehaviour {
 				else if(wavyMachineGun == 1)
 				{
 					if(Input.GetKey(KeyCode.Mouse0))
-						{
-							if (timer >= timeInterval){
+					{
+						if (timer >= timeInterval){
 							gameObject.GetComponent<AudioSource>().Play();
-								//Create empty Object for bullet to follow
-								parentObj = new GameObject();
-								parentObj.AddComponent<Shots>();
-								parentObj.GetComponent<Shots>().sine = sineShot;
-								parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-								parentObj.transform.position = Player.transform.position;
-						
-								//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
-								obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-								obj.transform.parent = parentObj.transform;
-								Vector3 holder = obj.transform.parent.position;
-						
-								obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
-								obj.AddComponent<WavyMovement>();
-								obj.GetComponent<WavyMovement>().isSingle = true;
-								timer = 0;
+							//Create empty Object for bullet to follow
+							parentObj = new GameObject();
+							parentObj.AddComponent<Shots>();
+							parentObj.GetComponent<Shots>().sine = sineShot;
+							parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+							parentObj.transform.position = Player.transform.position;
+							
+							//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
+							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj.transform.parent = parentObj.transform;
+							Vector3 holder = obj.transform.parent.position;
+							
+							obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
+							obj.AddComponent<WavyMovement>();
+							obj.GetComponent<WavyMovement>().isSingle = true;
+							timer = 0;
 						}
 					}
-
+					
 				}
-
+				
 			}
 			if(shotType == 2){
 				if(doubleWavyMachineGun == 0)
@@ -223,8 +229,38 @@ public class Shooting : MonoBehaviour {
 				
 			}
 			
-
-
+			if(shotType == 3)
+			{
+				if(homingGun == 0){
+					if(Input.GetMouseButtonDown(0)== true)
+					{
+						gameObject.GetComponent<AudioSource>().Play();
+						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+						obj.AddComponent<HomingShot>();
+						obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+						
+						
+					}
+				}
+				else if(homingGun == 1)
+				{
+					if(Input.GetKey(KeyCode.Mouse0))
+					{
+						if (timer >= timeInterval){
+							gameObject.GetComponent<AudioSource>().Play();
+							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj.AddComponent<HomingShot>();
+							obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+							
+							timer = 0;
+						}
+						
+					}
+				}
+			}
+			
+			
+			
 		}
 		
 		
