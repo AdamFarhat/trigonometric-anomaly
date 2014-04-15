@@ -28,6 +28,7 @@ public class Shooting : MonoBehaviour {
 	GameObject obj2;
 	GameObject Player;
 	GameObject parentObj;
+	GameObject shotHierarchy;
 	
 	// Use this for initialization
 	void Start () {
@@ -36,6 +37,7 @@ public class Shooting : MonoBehaviour {
 		doubleWavyMachineGun = 0;
 		homingGun = 0;
 		Player = GameObject.FindGameObjectWithTag("Player");
+		shotHierarchy = new GameObject("Shots");
 	}
 	
 	
@@ -82,6 +84,7 @@ public class Shooting : MonoBehaviour {
 					{
 						gameObject.GetComponent<AudioSource>().Play();
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+						obj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 						obj.AddComponent<Shots>();
 						obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
 						
@@ -94,6 +97,7 @@ public class Shooting : MonoBehaviour {
 						if (timer >= timeInterval){
 							gameObject.GetComponent<AudioSource>().Play();
 							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 							obj.AddComponent<Shots>();
 							obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
 							timer = 0;
@@ -121,7 +125,7 @@ public class Shooting : MonoBehaviour {
 					{
 						gameObject.GetComponent<AudioSource>().Play();
 						//Create empty Object for bullet to follow
-						parentObj = new GameObject();
+						parentObj = new GameObject("WaveyMachineGun");
 						parentObj.AddComponent<Shots>();
 						parentObj.GetComponent<Shots>().sine = sineShot;
 						parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
@@ -129,7 +133,9 @@ public class Shooting : MonoBehaviour {
 						
 						//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+						obj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 						obj.transform.parent = parentObj.transform;
+						parentObj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 						Vector3 holder = obj.transform.parent.position;
 						
 						obj.transform.position = holder - new Vector3(1.5f, 0, 0.25f);
@@ -144,7 +150,7 @@ public class Shooting : MonoBehaviour {
 						if (timer >= timeInterval){
 							gameObject.GetComponent<AudioSource>().Play();
 							//Create empty Object for bullet to follow
-							parentObj = new GameObject();
+							parentObj = new GameObject("WaveyMachineGun");
 							parentObj.AddComponent<Shots>();
 							parentObj.GetComponent<Shots>().sine = sineShot;
 							parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
@@ -152,7 +158,9 @@ public class Shooting : MonoBehaviour {
 							
 							//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							//obj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 							obj.transform.parent = parentObj.transform;
+							parentObj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 							Vector3 holder = obj.transform.parent.position;
 							
 							obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
@@ -172,7 +180,7 @@ public class Shooting : MonoBehaviour {
 					{
 						gameObject.GetComponent<AudioSource>().Play();
 						//Create empty Object for bullet to follow
-						parentObj = new GameObject();
+						parentObj = new GameObject("doubleWavyShot");
 						parentObj.AddComponent<Shots>();
 						parentObj.GetComponent<Shots>().sine = sineShot;
 						parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
@@ -183,6 +191,7 @@ public class Shooting : MonoBehaviour {
 						obj.transform.parent = parentObj.transform;
 						obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj2.transform.parent = parentObj.transform;
+						parentObj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 						Vector3 holder = obj.transform.parent.position;
 						Vector3 holder1 = obj2.transform.parent.position;
 						
@@ -201,7 +210,7 @@ public class Shooting : MonoBehaviour {
 						if (timer >= timeInterval){
 							gameObject.GetComponent<AudioSource>().Play();
 							//Create empty Object for bullet to follow
-							parentObj = new GameObject();
+							parentObj = new GameObject("doubleWavyShot");
 							parentObj.AddComponent<Shots>();
 							parentObj.GetComponent<Shots>().sine = sineShot;
 							parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
@@ -209,9 +218,10 @@ public class Shooting : MonoBehaviour {
 							
 							//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-							obj.transform.parent = parentObj.transform;
 							obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj.transform.parent = parentObj.transform;
 							obj2.transform.parent = parentObj.transform;
+							parentObj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 							Vector3 holder = obj.transform.parent.position;
 							Vector3 holder1 = obj2.transform.parent.position;
 							
@@ -224,9 +234,7 @@ public class Shooting : MonoBehaviour {
 							timer = 0;
 						}
 					}
-					
 				}
-				
 			}
 			
 			if(shotType == 3)
@@ -236,10 +244,9 @@ public class Shooting : MonoBehaviour {
 					{
 						gameObject.GetComponent<AudioSource>().Play();
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+						obj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 						obj.AddComponent<HomingShot>();
 						obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-						
-						
 					}
 				}
 				else if(homingGun == 1)
@@ -249,22 +256,15 @@ public class Shooting : MonoBehaviour {
 						if (timer >= timeInterval){
 							gameObject.GetComponent<AudioSource>().Play();
 							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj.transform.parent = shotHierarchy.transform; //places object in proper hierarchy
 							obj.AddComponent<HomingShot>();
 							obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
 							
 							timer = 0;
 						}
-						
 					}
 				}
 			}
-			
-			
-			
 		}
-		
-		
 	}
-	
-	
 }
