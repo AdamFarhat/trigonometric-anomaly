@@ -5,7 +5,7 @@ using System.Collections.Generic;
 //Flocking coding:http://gamedevelopment.tutsplus.com/tutorials/the-three-simple-rules-of-flocking-behaviors-alignment-cohesion-and-separation--gamedev-3444
 
 public class Behaviour : MonoBehaviour {
-
+	
 	//default behaviour int to NONE (size - 1)
 	public int behaviourInt = System.Enum.GetNames(typeof(EnumScript.EnemyType)).Length - 1;
 	EnumScript.EnemyType enemyType;
@@ -13,10 +13,11 @@ public class Behaviour : MonoBehaviour {
 	Material blueMat;
 	Material greenMat;
 	Material redMat;
-
+	
 	public float lowEnemyHealth;
-
+	
 	const float FLEE_DISTANCE = 15.0f;
+	const float MIN_RANGE = 25.0f;
 	float fleeAcceleration = 2.0f;
 	float fleeVelocity = 2.0f;
 	Vector3 playerPosition;
@@ -30,15 +31,15 @@ public class Behaviour : MonoBehaviour {
 	float rotationSpeed = 1.0f;
 	
 	float time = 0.0f;
-
+	
 	Vector3 wayPoint;
-
+	
 	GameObject reds;
 	GameObject blues;
 	float alignmentThreshold = 3f;
 	float cohesionThreshold = 25.0f;
 	float separationThreshold = 5f;
-
+	
 	// Use this for initialization
 	void Start () {
 		lowEnemyHealth = 4f;
@@ -46,32 +47,32 @@ public class Behaviour : MonoBehaviour {
 		greenMat = Resources.Load("Materials/green") as Material;
 		redMat = Resources.Load ("Materials/red") as Material;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
-
+		
 		wanderDegAngle = Random.Range (0, 359);
 		wanderRadianAngle = wanderDegAngle * Mathf.Deg2Rad;
 		intToEnum();		
-
+		
 		reds = GameObject.Find("Reds");
 		blues = GameObject.Find("Blues");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		
 		if (lowEnemyHealth == 0)
-						Destroy(gameObject);
-//		boundaryCheck();
-	
+			Destroy(gameObject);
+		//		boundaryCheck();
+		
 		switch(enemyType){
 			//Most basic enemy type; random movement.
 			case EnumScript.EnemyType.BLUE_ENEMY:
 				blueBehaviour();
 				break;
-			//Random movement but will try to evade player.
+				//Random movement but will try to evade player.
 			case EnumScript.EnemyType.GREEN_ENEMY:
 				greenBehaviour();
 				break;
-			//Flocking behaviour
+				//Flocking behaviour
 			case EnumScript.EnemyType.RED_ENEMY:
 				redBehaviour();
 				break;
@@ -79,12 +80,25 @@ public class Behaviour : MonoBehaviour {
 				break;
 		}
 	}
-
+	
 	void blueBehaviour(){
-		transform.position += transform.TransformDirection(Vector3.forward) * 20f * Time.deltaTime;
-		Wander();
+		blues = GameObject.Find("Blues");
+		float separationWeight = 0.2f;
+		
+		Vector3 separation = computeSeparation(blues);
+		Vector3 targetDirection = separation * separationWeight;
+		targetDirection.Normalize();
+		
+		
+		playerPosition = GameObject.Find("Player").transform.position;
+		Vector3 direction = playerPosition - gameObject.transform.position;
+		if(direction.magnitude < MIN_RANGE){
+			seek(playerPosition + targetDirection* maxVelocity*2);
+		}else{
+			wander();
+		}
 	}
-
+	
 	void greenBehaviour(){
 		playerPosition = GameObject.Find("Player").transform.position;
 		Vector3 direction = gameObject.transform.position - playerPosition;
@@ -95,15 +109,15 @@ public class Behaviour : MonoBehaviour {
 			wander();
 		}
 	}
-
+	
 	void redBehaviour(){		
 		reds = GameObject.Find("Reds");
 		blues = GameObject.Find("Blues");
-
+		
 		float alignmentWeight = 0.1f;
 		float cohesionWeight = 0.15f;
 		float separationWeight = 0.2f;
-
+		
 		Vector3 alignment = computeAlignment(reds) + computeAlignment(blues);
 		Vector3 cohesion = computeCohesion(reds) + computeCohesion(blues);
 		Vector3 separation = computeSeparation(reds) + computeSeparation(blues);
@@ -119,11 +133,11 @@ public class Behaviour : MonoBehaviour {
 			wander();
 		}
 	}
-
+	
 	Vector3 computeAlignment(GameObject group){
 		Vector3 v = new Vector3();
 		int nbCount = 0;
-
+		
 		for (int i = 0; i < group.transform.childCount; i++)
 		{
 			Transform current = group.transform.GetChild(i);
@@ -141,7 +155,7 @@ public class Behaviour : MonoBehaviour {
 		v.Normalize();
 		return v;
 	}
-
+	
 	Vector3 computeCohesion(GameObject group){
 		Vector3 v = new Vector3();
 		int nbCount = 0;
@@ -163,11 +177,11 @@ public class Behaviour : MonoBehaviour {
 		v.Normalize();
 		return v;
 	}
-
+	
 	Vector3 computeSeparation(GameObject group){
 		Vector3 pos = new Vector3();
 		int nbCount = 0;
-
+		
 		for (int i = 0; i < group.transform.childCount; i++)
 		{
 			Transform current = group.transform.GetChild(i);
@@ -179,7 +193,7 @@ public class Behaviour : MonoBehaviour {
 				}
 			}
 		}
-
+		
 		if(nbCount == 0)
 			return pos;
 		pos /= nbCount;
@@ -187,17 +201,17 @@ public class Behaviour : MonoBehaviour {
 		pos.Normalize();
 		return pos;
 	}
-
+	
 	void flee(Vector3 direction){
 		Vector3 acceleration = (direction / direction.magnitude) * fleeAcceleration;
 		Vector3 velocity = cVelocity + (acceleration * timeBetweenUpdates);
 		if(velocity.magnitude < fleeVelocity){
 			gameObject.transform.position = gameObject.transform.position + (velocity * timeBetweenUpdates);
 		}
-
-
+		
+		
 	}
-
+	
 	void Sflee(Vector3 position){
 		Vector3 direction = transform.position - position;
 		direction.y = 0;
@@ -208,7 +222,7 @@ public class Behaviour : MonoBehaviour {
 			transform.position += move;
 		}
 	}
-
+	
 	Vector3 computeTargetPosition(){
 		wanderDegAngle += Random.Range (-5.0f, 5.0f);
 		wanderRadianAngle = wanderDegAngle * Mathf.Deg2Rad;
@@ -216,14 +230,14 @@ public class Behaviour : MonoBehaviour {
 		float x = Mathf.Round (gameObject.transform.position.x + (wanderRadius * Mathf.Sin (wanderRadianAngle)));
 		float y = gameObject.transform.position.y;
 		float z = Mathf.Round (gameObject.transform.position.z + (wanderRadius * Mathf.Cos(wanderRadianAngle)));
-
+		
 		return new Vector3(x,y,z);
 	}
-
+	
 	void wander(){
 		seek(computeTargetPosition());
 	}
-
+	
 	void Wander(){
 		time += Time.deltaTime;
 		if (time > 3){
@@ -234,7 +248,7 @@ public class Behaviour : MonoBehaviour {
 			time = 0;
 		}
 	}
-
+	
 	void seek(Vector3 position){
 		Vector3 distance = position - gameObject.transform.position;
 		Vector3 acceleration = (distance / distance.magnitude) * maxAcceleration;
@@ -242,10 +256,10 @@ public class Behaviour : MonoBehaviour {
 		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, Quaternion.LookRotation (velocity), Time.deltaTime);
 		if(velocity.magnitude < maxVelocity){
 			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, position, 10f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
-
+			
 		}
 	}
-
+	
 	void boundaryCheck(){
 		if(gameObject.transform.position.x > box.bounds.max.x){
 			gameObject.transform.position = new Vector3(box.bounds.min.x + 0.1f, gameObject.transform.position.y, gameObject.transform.position.z);
@@ -279,12 +293,12 @@ public class Behaviour : MonoBehaviour {
 		}
 		gameObject.transform.name = enemyType.ToString();
 	}
-
-//	void OnTriggerEnter(Collider collision)
-//	{
-//		if (collision.gameObject.tag == "Bullet") {
-//			Destroy(gameObject);
-//				}
-//	}
+	
+	//	void OnTriggerEnter(Collider collision)
+	//	{
+	//		if (collision.gameObject.tag == "Bullet") {
+	//			Destroy(gameObject);
+	//				}
+	//	}
 }
 

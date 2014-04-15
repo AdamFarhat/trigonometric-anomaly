@@ -1,10 +1,14 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemySpawning.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\HomingShot.cs">
     <Files>
+      <File FileName="Assets\Scripts\Behaviour.cs" Line="305" Column="1" />
       <File FileName="Assets\Scripts\GameController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\EnemySpawning.cs" Line="14" Column="37" />
+      <File FileName="Assets\Scripts\EnemySpawning.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Shooting.cs" Line="286" Column="6" />
+      <File FileName="Assets\Scripts\Shots.cs" Line="52" Column="54" />
+      <File FileName="Assets\Scripts\WavyMovement.cs" Line="24" Column="84" />
+      <File FileName="Assets\Scripts\HomingShot.cs" Line="117" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

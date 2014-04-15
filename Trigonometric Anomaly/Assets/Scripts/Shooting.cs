@@ -26,6 +26,7 @@ public class Shooting : MonoBehaviour {
 	public GameObject prefab;
 	GameObject obj;
 	GameObject obj2;
+	GameObject obj3;
 	GameObject Player;
 	GameObject parentObj;
 	
@@ -64,6 +65,7 @@ public class Shooting : MonoBehaviour {
 		}
 		//Homing Shot
 		if (Input.GetKeyUp (KeyCode.Alpha4)) {
+			homingGun = 1 - homingGun;
 			shotType = 3;
 		}
 		
@@ -119,22 +121,50 @@ public class Shooting : MonoBehaviour {
 				{
 					if(Input.GetMouseButtonDown(0))
 					{
+						//						gameObject.GetComponent<AudioSource>().Play();
+						//						//Create empty Object for bullet to follow
+						//						parentObj = new GameObject();
+						//						parentObj.AddComponent<Shots>();
+						//						parentObj.GetComponent<Shots>().sine = sineShot;
+						//						parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+						//						parentObj.transform.position = Player.transform.position;
+						//						
+						//						//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
+						//						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+						//						obj.transform.parent = parentObj.transform;
+						//						Vector3 holder = obj.transform.parent.position;
+						//						
+						//						obj.transform.position = holder - new Vector3(1.5f, 0, 0.25f);
+						//						obj.AddComponent<WavyMovement>();
+						//						obj.GetComponent<WavyMovement>().isSingle = true;
+						
 						gameObject.GetComponent<AudioSource>().Play();
 						//Create empty Object for bullet to follow
 						parentObj = new GameObject();
 						parentObj.AddComponent<Shots>();
-						parentObj.GetComponent<Shots>().sine = sineShot;
+						//parentObj.GetComponent<Shots>().sine = sineShot;
 						parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
 						parentObj.transform.position = Player.transform.position;
 						
 						//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj.transform.parent = parentObj.transform;
+						obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+						obj2.transform.parent = parentObj.transform;
+						obj3 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+						obj3.transform.parent = parentObj.transform;
 						Vector3 holder = obj.transform.parent.position;
+						Vector3 holder1 = obj2.transform.parent.position;
+						Vector3 holder2 = obj2.transform.parent.position;
 						
-						obj.transform.position = holder - new Vector3(1.5f, 0, 0.25f);
-						obj.AddComponent<WavyMovement>();
-						obj.GetComponent<WavyMovement>().isSingle = true;
+						obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
+						obj2.transform.position = holder1 + new Vector3(0.75f,0,0.75f);
+						obj3.transform.position = holder2;
+						
+						obj.AddComponent<Shots>();
+						obj2.AddComponent<Shots>();
+						obj3.AddComponent<Shots>();
+						
 					}
 				}
 				else if(wavyMachineGun == 1)
@@ -142,22 +172,50 @@ public class Shooting : MonoBehaviour {
 					if(Input.GetKey(KeyCode.Mouse0))
 					{
 						if (timer >= timeInterval){
+							//							gameObject.GetComponent<AudioSource>().Play();
+							//							//Create empty Object for bullet to follow
+							//							parentObj = new GameObject();
+							//							parentObj.AddComponent<Shots>();
+							//							parentObj.GetComponent<Shots>().sine = sineShot;
+							//							parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+							//							parentObj.transform.position = Player.transform.position;
+							//							
+							//							//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
+							//							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							//							obj.transform.parent = parentObj.transform;
+							//							Vector3 holder = obj.transform.parent.position;
+							//							
+							//							obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
+							//							obj.AddComponent<WavyMovement>();
+							//							obj.GetComponent<WavyMovement>().isSingle = true;
+							
 							gameObject.GetComponent<AudioSource>().Play();
 							//Create empty Object for bullet to follow
 							parentObj = new GameObject();
 							parentObj.AddComponent<Shots>();
-							parentObj.GetComponent<Shots>().sine = sineShot;
+							//parentObj.GetComponent<Shots>().sine = sineShot;
 							parentObj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
 							parentObj.transform.position = Player.transform.position;
 							
 							//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 							obj.transform.parent = parentObj.transform;
+							obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj2.transform.parent = parentObj.transform;
+							obj3 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+							obj3.transform.parent = parentObj.transform;
 							Vector3 holder = obj.transform.parent.position;
+							Vector3 holder1 = obj2.transform.parent.position;
+							Vector3 holder2 = obj2.transform.parent.position;
 							
 							obj.transform.position = holder - new Vector3(0.75f,0,0.75f);
-							obj.AddComponent<WavyMovement>();
-							obj.GetComponent<WavyMovement>().isSingle = true;
+							obj2.transform.position = holder1 + new Vector3(0.75f,0,0.75f);
+							obj3.transform.position = holder2;
+							
+							obj.AddComponent<Shots>();
+							obj2.AddComponent<Shots>();
+							obj3.AddComponent<Shots>();
+							
 							timer = 0;
 						}
 					}
