@@ -17,6 +17,7 @@ public class RandomRotation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+		if ( Time.timeScale <= 0 ) return;
 		this.transform.rotation = this.transform.rotation * rotation;
 	}
 }

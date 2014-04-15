@@ -8,5 +8,4 @@ public class EnumScript : MonoBehaviour {
 		GREEN_ENEMY,
 		NONE
 	};
-
 }

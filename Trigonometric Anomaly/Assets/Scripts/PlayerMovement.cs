@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour {
 		Vector3 myPosition = this.transform.position;
 		Vector3 targetPosition = this.transform.position;
 
-		//Translation transformation
+		//Direction
 		if (Input.GetKey (KeyCode.W))
 		{
 			targetPosition += new Vector3(0f, 0f, 1f);
