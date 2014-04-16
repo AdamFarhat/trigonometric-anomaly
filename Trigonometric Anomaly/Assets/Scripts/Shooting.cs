@@ -16,12 +16,15 @@ public class Shooting : MonoBehaviour {
 	public bool sineShot = false;
 	public bool tripleShotPurchased = false;
 	public bool spiralShotPurchased = false;
+	public bool hasAlly = false;
 	float timer = 0.0f;
 	float timeInterval = 0.2f;
 	int score;
 	public ScoreController scoreController = ScoreController.Instance;
 	public int numberBombs;
 	public GameObject bombPrefab;
+	public GameObject allyPrefab;
+	public bool allySet;
 	
 	//For Direction of Bullet
 	Ray ray;
@@ -33,6 +36,9 @@ public class Shooting : MonoBehaviour {
 	GameObject obj;
 	GameObject obj2;
 	GameObject obj3;
+	GameObject ally1;
+	GameObject ally2;
+	GameObject ally3;
 	GameObject Player;
 	GameObject parentObj;
 
@@ -48,6 +54,7 @@ public class Shooting : MonoBehaviour {
 	}
 	// Use this for initialization
 	void Start () {
+		allySet = false;
 		numberBombs = 0;
 		MachineGun = 0;
 		wavyMachineGun = 0;
@@ -98,6 +105,10 @@ public class Shooting : MonoBehaviour {
 						Instantiate(bombPrefab, explosionPosition, Quaternion.identity);
 					}
 				}
+
+
+
+
 		
 		timer += Time.deltaTime;
 		
@@ -116,7 +127,9 @@ public class Shooting : MonoBehaviour {
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj.AddComponent<Shots>();
 						obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-						
+
+
+
 					}
 				}
 				else if(MachineGun == 1)
@@ -372,6 +385,33 @@ public class Shooting : MonoBehaviour {
 
 			}
 			
+		}
+
+	}
+
+	public void createAlly()
+	{
+		if (hasAlly == false)
+		{
+			if(allySet != true)
+			{
+				ally1 = Instantiate(allyPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+				ally1.transform.parent = Player.GetComponent<PlayerMovement>().transform;
+				ally2 = Instantiate(allyPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+				ally2.transform.parent = Player.GetComponent<PlayerMovement>().transform;
+				ally3 = Instantiate(allyPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+				ally3.transform.parent = Player.GetComponent<PlayerMovement>().transform;
+				
+				Vector3 holder = ally1.transform.parent.position;
+				Vector3 holder1 = ally2.transform.parent.position;
+				Vector3 holder2 = ally3.transform.parent.position;
+				
+				ally1.transform.position = holder - new Vector3(3.5f,0,3.5f);
+				ally2.transform.position = holder1 + new Vector3(3.5f,0,-3.5f);
+				ally3.transform.position = holder2 + new Vector3(0,0,3.5f);
+				allySet = true;
+			}
+			hasAlly = true;
 		}
 
 	}

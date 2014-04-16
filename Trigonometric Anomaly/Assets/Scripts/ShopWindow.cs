@@ -92,7 +92,8 @@ public class ShopWindow : MonoBehaviour {
 					}
 		
 				GUILayout.Label("5000", centeredStyle);
-		GUILayout.EndVertical();
+				GUILayout.EndVertical();
+
 				GUILayout.BeginVertical();
 					if (GUILayout.Button("Triple Shot"))
 					{
@@ -145,7 +146,29 @@ public class ShopWindow : MonoBehaviour {
 
 			GUILayout.BeginHorizontal();
 			GUILayout.Button(shieldTexture);
-			GUILayout.Button("Button");
+			GUILayout.BeginVertical();
+			if (GUILayout.Button(allyTexture))
+				{
+					price = 4000;
+					if (camera.GetComponent<Shooting>().hasAlly != true)
+					{
+						if ((ScoreController.Instance.score - price) > 0)
+						{
+							messageText = "Purchased!";
+							camera.GetComponent<Shooting>().createAlly();
+							ScoreController.Instance.decrementScore(price);
+						} 
+						else{
+							messageText = "Insufficient points";
+						}
+					}
+					else{
+						messageText = "You already purchase this item!";
+					}
+
+				}
+			GUILayout.Label("40000", centeredStyle);
+			GUILayout.EndVertical();
 			GUILayout.Button("Button");
 			GUILayout.EndHorizontal();
 		GUILayout.EndVertical();
