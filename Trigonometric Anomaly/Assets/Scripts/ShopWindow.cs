@@ -79,6 +79,7 @@ public class ShopWindow : MonoBehaviour {
 						if((ScoreController.Instance.score - price) > 0)
 						{
 							messageText = "Purchased!";
+							camera.GetComponent<Shooting>().numberBombs += 1;
 							ScoreController.Instance.decrementScore(price);
 							
 						}

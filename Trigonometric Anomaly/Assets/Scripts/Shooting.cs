@@ -20,6 +20,8 @@ public class Shooting : MonoBehaviour {
 	float timeInterval = 0.2f;
 	int score;
 	public ScoreController scoreController = ScoreController.Instance;
+	public int numberBombs;
+	public GameObject bombPrefab;
 	
 	//For Direction of Bullet
 	Ray ray;
@@ -34,12 +36,19 @@ public class Shooting : MonoBehaviour {
 	GameObject Player;
 	GameObject parentObj;
 
+	Vector3 explosionPosition;
+	
+	float explosionRadius = 25.0f;
+	
+	Collider[] colliders;
+
 	void Awake()
 	{
 		scoreController = ScoreController.Instance;
 	}
 	// Use this for initialization
 	void Start () {
+		numberBombs = 0;
 		MachineGun = 0;
 		wavyMachineGun = 0;
 		doubleWavyMachineGun = 0;
@@ -51,7 +60,9 @@ public class Shooting : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		
+		explosionPosition = Player.transform.position;
+		colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
 		if ( Time.timeScale <= 0 ) return;
 		//Single Shot
 		if(Input.GetKeyUp (KeyCode.Alpha1))
@@ -77,6 +88,16 @@ public class Shooting : MonoBehaviour {
 			homingGun = 1 - homingGun;
 			shotType = 3;
 		}
+
+		if (Input.GetKeyUp(KeyCode.Space))
+				{
+					if(numberBombs > 0)
+					{
+						numberBombs--;
+						Bomb();
+						Instantiate(bombPrefab, explosionPosition, Quaternion.identity);
+					}
+				}
 		
 		timer += Time.deltaTime;
 		
@@ -332,6 +353,32 @@ public class Shooting : MonoBehaviour {
 		
 		
 	}
-	
+
+
+	void Bomb()
+	{
+		foreach (Collider col in colliders)
+		{
+			
+			if (col.collider.tag == "Enemy")
+			{
+
+				Destroy(col.collider.gameObject);
+				
+			}
+			if(col.collider.gameObject.layer == 10)
+			{
+				Destroy(col.collider.gameObject);
+
+			}
+			
+		}
+
+	}
+//	void OnTriggerEnter (Collider other) {
+//
+//						
+//			
+//		}
 	
 }

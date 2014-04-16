@@ -61,8 +61,14 @@ public class Behaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 
+		if (ShopWindow.Instance.enabled == true)
+				{
+						if (renderer.isVisible)
+						{
+							Destroy(gameObject);
+						}
+				}
 				
 		//		boundaryCheck();
 		
