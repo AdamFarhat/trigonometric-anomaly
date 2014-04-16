@@ -16,6 +16,7 @@ public class ShopWindow : MonoBehaviour {
 	GameObject camera;
 	public Texture2D shieldTexture;
 	public Texture2D allyTexture;
+	public Texture2D bombTexture;
 
 
 	void Awake()
@@ -63,7 +64,7 @@ public class ShopWindow : MonoBehaviour {
 
 		centeredStyle.alignment = TextAnchor.MiddleCenter;
 		subtitle.fontStyle = FontStyle.Bold;
-		subtitle.fontSize = 15;
+		subtitle.fontSize = 10;
 
 		GUILayout.BeginVertical();
 			GUILayout.Label("You can buy upgrades here at the expense of your score.");
@@ -73,7 +74,7 @@ public class ShopWindow : MonoBehaviour {
 			GUILayout.BeginHorizontal();
 
 				GUILayout.BeginVertical();
-					if (GUILayout.Button("Bombs"))
+					if (GUILayout.Button(bombTexture))
 					{
 						price = 5000;
 						if((ScoreController.Instance.score - price) > 0)
