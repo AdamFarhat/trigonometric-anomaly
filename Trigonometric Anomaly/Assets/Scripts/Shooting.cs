@@ -14,8 +14,12 @@ public class Shooting : MonoBehaviour {
 	bool machineGun = false;
 	bool chargeShot = false;
 	public bool sineShot = false;
+	public bool tripleShotPurchased = false;
+	public bool spiralShotPurchased = false;
 	float timer = 0.0f;
 	float timeInterval = 0.2f;
+	int score;
+	public ScoreController scoreController = ScoreController.Instance;
 	
 	//For Direction of Bullet
 	Ray ray;
@@ -29,7 +33,11 @@ public class Shooting : MonoBehaviour {
 	GameObject obj3;
 	GameObject Player;
 	GameObject parentObj;
-	
+
+	void Awake()
+	{
+		scoreController = ScoreController.Instance;
+	}
 	// Use this for initialization
 	void Start () {
 		MachineGun = 0;
@@ -43,7 +51,8 @@ public class Shooting : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		if ( Time.timeScale <= 0 ) return;
 		//Single Shot
 		if(Input.GetKeyUp (KeyCode.Alpha1))
 		{
@@ -117,7 +126,7 @@ public class Shooting : MonoBehaviour {
 			//				}
 			//			}
 			if(shotType == 1){
-				if(wavyMachineGun == 0)
+				if(wavyMachineGun == 0 && tripleShotPurchased)
 				{
 					if(Input.GetMouseButtonDown(0))
 					{
@@ -167,7 +176,7 @@ public class Shooting : MonoBehaviour {
 						
 					}
 				}
-				else if(wavyMachineGun == 1)
+				else if(wavyMachineGun == 1 && tripleShotPurchased)
 				{
 					if(Input.GetKey(KeyCode.Mouse0))
 					{
@@ -224,7 +233,7 @@ public class Shooting : MonoBehaviour {
 				
 			}
 			if(shotType == 2){
-				if(doubleWavyMachineGun == 0)
+				if(doubleWavyMachineGun == 0 && spiralShotPurchased)
 				{
 					if(Input.GetMouseButtonDown(0))
 					{
@@ -252,7 +261,7 @@ public class Shooting : MonoBehaviour {
 						obj2.GetComponent<WavyMovement>().isSingle = false;
 					}
 				}
-				else if(doubleWavyMachineGun == 1)
+				else if(doubleWavyMachineGun == 1 && spiralShotPurchased)
 				{
 					if(Input.GetKey(KeyCode.Mouse0))
 					{
@@ -287,35 +296,35 @@ public class Shooting : MonoBehaviour {
 				
 			}
 			
-			if(shotType == 3)
-			{
-				if(homingGun == 0){
-					if(Input.GetMouseButtonDown(0)== true)
-					{
-						gameObject.GetComponent<AudioSource>().Play();
-						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-						obj.AddComponent<HomingShot>();
-						obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-						
-						
-					}
-				}
-				else if(homingGun == 1)
-				{
-					if(Input.GetKey(KeyCode.Mouse0))
-					{
-						if (timer >= timeInterval){
-							gameObject.GetComponent<AudioSource>().Play();
-							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-							obj.AddComponent<HomingShot>();
-							obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-							
-							timer = 0;
-						}
-						
-					}
-				}
-			}
+//			if(shotType == 3)
+//			{
+//				if(homingGun == 0){
+//					if(Input.GetMouseButtonDown(0)== true)
+//					{
+//						gameObject.GetComponent<AudioSource>().Play();
+//						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+//						obj.AddComponent<HomingShot>();
+//						obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+//						
+//						
+//					}
+//				}
+//				else if(homingGun == 1)
+//				{
+//					if(Input.GetKey(KeyCode.Mouse0))
+//					{
+//						if (timer >= timeInterval){
+//							gameObject.GetComponent<AudioSource>().Play();
+//							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+//							obj.AddComponent<HomingShot>();
+//							obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+//							
+//							timer = 0;
+//						}
+//						
+//					}
+//				}
+//			}
 			
 			
 			

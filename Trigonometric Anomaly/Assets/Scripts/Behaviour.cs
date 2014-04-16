@@ -39,6 +39,9 @@ public class Behaviour : MonoBehaviour {
 	float alignmentThreshold = 3f;
 	float cohesionThreshold = 25.0f;
 	float separationThreshold = 5f;
+
+	Shooting player;
+	int points;
 	
 	// Use this for initialization
 	void Start () {
@@ -59,8 +62,8 @@ public class Behaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (lowEnemyHealth == 0)
-			Destroy(gameObject);
+
+				
 		//		boundaryCheck();
 		
 		switch(enemyType){
@@ -294,11 +297,26 @@ public class Behaviour : MonoBehaviour {
 		gameObject.transform.name = enemyType.ToString();
 	}
 	
-	//	void OnTriggerEnter(Collider collision)
-	//	{
-	//		if (collision.gameObject.tag == "Bullet") {
-	//			Destroy(gameObject);
-	//				}
-	//	}
+		void OnTriggerEnter(Collider collision)
+		{
+			if (collision.gameObject.tag == "Bullet") {
+				if (lowEnemyHealth <= 0)
+				{
+					if(behaviourInt == 0)
+					{
+						ScoreController.Instance.addScore(1000);
+					}
+					if(behaviourInt == 1)
+					{
+						ScoreController.Instance.addScore(2000);
+					}
+					if(behaviourInt == 2)
+					{
+						ScoreController.Instance.addScore(3000);
+					}
+				Destroy(gameObject);
+				}
+			}
+		}
 }
 

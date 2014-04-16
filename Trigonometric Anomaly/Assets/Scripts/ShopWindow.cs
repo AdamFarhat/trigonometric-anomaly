@@ -10,7 +10,14 @@ public class ShopWindow : MonoBehaviour {
 	{
 		get { return _instance; }
 	}
-	
+
+	int price;
+	string messageText;
+	GameObject camera;
+	public Texture2D shieldTexture;
+	public Texture2D allyTexture;
+
+
 	void Awake()
 	{
 		if (_instance != null && _instance != this)
@@ -27,6 +34,9 @@ public class ShopWindow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
+		messageText = "";
+		price = 0;
 		this.enabled = false;
 		windowSize.x = Screen.width / 2 - windowSize.width / 2;
 		windowSize.y = Screen.height / 2 - windowSize.height / 2;
@@ -61,24 +71,79 @@ public class ShopWindow : MonoBehaviour {
 			GUILayout.Label("Offensive", subtitle);
 
 			GUILayout.BeginHorizontal();
+
 				GUILayout.BeginVertical();
-					GUILayout.Button("Weapon 1");
-					GUILayout.Label("10000", centeredStyle);
+					if (GUILayout.Button("Bombs"))
+					{
+						price = 5000;
+						if((ScoreController.Instance.score - price) > 0)
+						{
+							messageText = "Purchased!";
+							ScoreController.Instance.decrementScore(price);
+							
+						}
+						else
+						{
+							messageText = "Insufficient points";
+							//print("Not enough");
+						}
+			
+					}
+		
+				GUILayout.Label("5000", centeredStyle);
+		GUILayout.EndVertical();
+				GUILayout.BeginVertical();
+					if (GUILayout.Button("Triple Shot"))
+					{
+						price = 50000;
+						if (camera.GetComponent<Shooting>().tripleShotPurchased != true)
+						{
+							if ((ScoreController.Instance.score - price) > 0)
+							{
+								messageText = "Purchased!";
+								camera.GetComponent<Shooting>().tripleShotPurchased = true;
+								ScoreController.Instance.decrementScore(price);
+							} else
+							{
+								messageText = "Insufficient points";
+								//print("Not enough");
+							}
+						}
+						else{
+								messageText = "You already purchase this item!";
+						}
+					}
+					GUILayout.Label("50000", centeredStyle);
 				GUILayout.EndVertical();
 				GUILayout.BeginVertical();
-					GUILayout.Button("Button");
-					GUILayout.Label("500000", centeredStyle);
-				GUILayout.EndVertical();
-				GUILayout.BeginVertical();
-					GUILayout.Button("Button");
-					GUILayout.Label("1M", centeredStyle);
+					if (GUILayout.Button("Spiral Shot"))
+					{
+						price = 75000;
+						if (camera.GetComponent<Shooting>().spiralShotPurchased != true)
+						{
+							if ((ScoreController.Instance.score - price) > 0)
+							{
+								messageText = "Purchased!";
+								camera.GetComponent<Shooting>().spiralShotPurchased = true;
+								ScoreController.Instance.decrementScore(price);
+							} 
+							else{
+								messageText = "Insufficient points";
+							//print("Not enough");
+							}
+						}
+							else{
+								messageText = "You already purchase this item!";
+							}
+					}
+					GUILayout.Label("75000", centeredStyle);
 				GUILayout.EndVertical();
 			GUILayout.EndHorizontal();
 			GUILayout.Space(5);
 			GUILayout.Label("Defensive", subtitle);
 
 			GUILayout.BeginHorizontal();
-			GUILayout.Button("Button");
+			GUILayout.Button(shieldTexture);
 			GUILayout.Button("Button");
 			GUILayout.Button("Button");
 			GUILayout.EndHorizontal();
@@ -89,6 +154,7 @@ public class ShopWindow : MonoBehaviour {
 			print ("You clicked the button!");
 		}*/
 
+		GUI.Label(new Rect(windowSize.width / 2 - 240, windowSize.height - 60, 480, 30), messageText, centeredStyle);
 		GUI.Label(new Rect(windowSize.width / 2 - 240, windowSize.height - 30, 480, 30), "Close shop by pressing <ENTER>", centeredStyle);
 		GUI.DragWindow();
 	}

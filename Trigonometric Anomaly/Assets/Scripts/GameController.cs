@@ -13,7 +13,7 @@ public class GameController : MonoBehaviour {
 	[SerializeField] public GUIText wave_label = null;
 	[SerializeField] public GUIText timer_label = null;
 	[SerializeField] public float next_wave_timer = 0f;
-	[SerializeField] public float current_wave_length = 60f;
+	[SerializeField] public float current_wave_length = 5f;
 	[SerializeField] public int current_wave = 1;
 	[SerializeField] public GameState state =  GameState.PLAYING;
 

@@ -12,6 +12,7 @@ public class Shots : MonoBehaviour {
 	Vector3 clickedPosition;
 	Vector3 characterPosition;
 	public GameObject boundingBox;
+	GameObject shooter;
 	float dmg;
 	int shotType;
 	
@@ -22,14 +23,16 @@ public class Shots : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		if ( Time.timeScale <= 0 ) return;
 		movement();
 		
 		transform.LookAt(clickedPosition);
-		
+
 		//Destroy Bullet when leaving Bounding Box
-		if (!boundingBox.GetComponent<BoxCollider> ().bounds.Contains (this.transform.position))
+		if (!boundingBox.GetComponent<BoxCollider> ().bounds.Contains (transform.position))
 			Destroy (gameObject);
+
 	}
 	
 	public  void PassPositions(Vector3 click, Vector3 character)
@@ -96,6 +99,10 @@ public class Shots : MonoBehaviour {
 	{
 		if (collision.gameObject.tag == "Enemy") {
 			collision.gameObject.GetComponent<Behaviour>().lowEnemyHealth -= 1;
+
+
+			int enemyType = collision.gameObject.GetComponent<Behaviour>().behaviourInt;
+
 		}
 		
 		if (collision.gameObject.tag != "Player")

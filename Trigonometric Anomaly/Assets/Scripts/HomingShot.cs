@@ -26,7 +26,7 @@ public class HomingShot : MonoBehaviour {
 	}
 	
 	void Update() {
-			
+		if ( Time.timeScale <= 0 ) return;
 			movement();
 		if(target != null)
 			transform.LookAt(target);
