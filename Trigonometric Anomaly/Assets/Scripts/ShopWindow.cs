@@ -150,7 +150,7 @@ public class ShopWindow : MonoBehaviour {
 
 		if (GUILayout.Button(shieldTexture))
 				{
-			price = 0;
+			price = 10000;
 			if(camera.GetComponent<Shooting>().hasShield != true)
 			{
 				if ((ScoreController.Instance.score - price) >= 0)
@@ -173,7 +173,7 @@ public class ShopWindow : MonoBehaviour {
 		GUILayout.BeginVertical();
 		if (GUILayout.Button(allyTexture))
 		{
-			price = 0;
+			price = 40000;
 			if (camera.GetComponent<Shooting>().hasAlly != true)
 			{
 				if ((ScoreController.Instance.score - price) >= 0)

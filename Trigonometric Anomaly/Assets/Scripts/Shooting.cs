@@ -392,7 +392,23 @@ public class Shooting : MonoBehaviour {
 			
 			if (col.collider.tag == "Enemy")
 			{
-				
+
+				int enemyType = col.collider.gameObject.GetComponent<Behaviour>().behaviourInt;
+
+				switch(enemyType)
+				{
+					case 0: 
+						ScoreController.Instance.addScore(1000);
+						break;
+					case 1:
+						ScoreController.Instance.addScore(2000);
+						break;
+					case 2:
+						ScoreController.Instance.addScore(3000);
+						break;
+
+				}
+
 				Destroy(col.collider.gameObject);
 				
 			}
