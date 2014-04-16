@@ -40,12 +40,13 @@ public class Behaviour : MonoBehaviour {
 	float cohesionThreshold = 25.0f;
 	float separationThreshold = 5f;
 
-	Shooting player;
+	GameObject camera;
 	int points;
 	
 	// Use this for initialization
 	void Start () {
 		lowEnemyHealth = 4f;
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
 		blueMat = Resources.Load ("Materials/blue") as Material;
 		greenMat = Resources.Load("Materials/green") as Material;
 		redMat = Resources.Load ("Materials/red") as Material;
@@ -323,6 +324,16 @@ public class Behaviour : MonoBehaviour {
 				Destroy(gameObject);
 				}
 			}
+
+			if (collision.gameObject.layer == 13)
+				{
+
+					bool has = false;
+					Destroy(collision.gameObject);
+					camera.GetComponent<Shooting>().hasShield = false;
+					camera.GetComponent<Shooting>().shieldSet = false;
+					Destroy(gameObject);
+				}
 			
 		}
 }

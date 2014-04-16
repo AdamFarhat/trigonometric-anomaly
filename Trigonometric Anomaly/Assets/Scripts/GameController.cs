@@ -55,7 +55,9 @@ public class GameController : MonoBehaviour {
 		{
 			ShopWindow.Instance.enabled = false;
 			unpause();
+			ShopWindow.Instance.messageText = "";
 			state = GameState.PLAYING;
+
 		}
 
 		next_wave_timer -= Time.deltaTime;

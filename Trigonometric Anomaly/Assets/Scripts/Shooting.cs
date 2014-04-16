@@ -24,7 +24,11 @@ public class Shooting : MonoBehaviour {
 	public int numberBombs;
 	public GameObject bombPrefab;
 	public GameObject allyPrefab;
+	public GameObject shieldPrefab;
 	public bool allySet;
+	public int nbAlly;
+	public bool shieldSet;
+	public bool hasShield;
 	
 	//For Direction of Bullet
 	Ray ray;
@@ -40,21 +44,24 @@ public class Shooting : MonoBehaviour {
 	GameObject ally2;
 	GameObject ally3;
 	GameObject Player;
+	GameObject shield;
 	GameObject parentObj;
-
+	
 	Vector3 explosionPosition;
 	
 	float explosionRadius = 25.0f;
 	
 	Collider[] colliders;
-
+	
 	void Awake()
 	{
 		scoreController = ScoreController.Instance;
 	}
 	// Use this for initialization
 	void Start () {
+		hasShield = false;
 		allySet = false;
+		shieldSet = false;
 		numberBombs = 0;
 		MachineGun = 0;
 		wavyMachineGun = 0;
@@ -67,7 +74,17 @@ public class Shooting : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+		if (hasShield == true)
+				{
+			createShield();
+				}
+		if (nbAlly == 0)
+		{
+			hasAlly = false;
+			allySet = false;
+		}
+
 		explosionPosition = Player.transform.position;
 		colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
 		if ( Time.timeScale <= 0 ) return;
@@ -95,20 +112,20 @@ public class Shooting : MonoBehaviour {
 			homingGun = 1 - homingGun;
 			shotType = 3;
 		}
-
+		
 		if (Input.GetKeyUp(KeyCode.Space))
-				{
-					if(numberBombs > 0)
-					{
-						numberBombs--;
-						Bomb();
-						Instantiate(bombPrefab, explosionPosition, Quaternion.identity);
-					}
-				}
-
-
-
-
+		{
+			if(numberBombs > 0)
+			{
+				numberBombs--;
+				Bomb();
+				Instantiate(bombPrefab, explosionPosition, Quaternion.identity);
+			}
+		}
+		
+		
+		
+		
 		
 		timer += Time.deltaTime;
 		
@@ -127,9 +144,9 @@ public class Shooting : MonoBehaviour {
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj.AddComponent<Shots>();
 						obj.GetComponent<Shots>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-
-
-
+						
+						
+						
 					}
 				}
 				else if(MachineGun == 1)
@@ -330,35 +347,35 @@ public class Shooting : MonoBehaviour {
 				
 			}
 			
-//			if(shotType == 3)
-//			{
-//				if(homingGun == 0){
-//					if(Input.GetMouseButtonDown(0)== true)
-//					{
-//						gameObject.GetComponent<AudioSource>().Play();
-//						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-//						obj.AddComponent<HomingShot>();
-//						obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-//						
-//						
-//					}
-//				}
-//				else if(homingGun == 1)
-//				{
-//					if(Input.GetKey(KeyCode.Mouse0))
-//					{
-//						if (timer >= timeInterval){
-//							gameObject.GetComponent<AudioSource>().Play();
-//							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-//							obj.AddComponent<HomingShot>();
-//							obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
-//							
-//							timer = 0;
-//						}
-//						
-//					}
-//				}
-//			}
+			//			if(shotType == 3)
+			//			{
+			//				if(homingGun == 0){
+			//					if(Input.GetMouseButtonDown(0)== true)
+			//					{
+			//						gameObject.GetComponent<AudioSource>().Play();
+			//						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+			//						obj.AddComponent<HomingShot>();
+			//						obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+			//						
+			//						
+			//					}
+			//				}
+			//				else if(homingGun == 1)
+			//				{
+			//					if(Input.GetKey(KeyCode.Mouse0))
+			//					{
+			//						if (timer >= timeInterval){
+			//							gameObject.GetComponent<AudioSource>().Play();
+			//							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+			//							obj.AddComponent<HomingShot>();
+			//							obj.GetComponent<HomingShot>().PassPositions(hit.point, Player.GetComponent<PlayerMovement>().transform.position);
+			//							
+			//							timer = 0;
+			//						}
+			//						
+			//					}
+			//				}
+			//			}
 			
 			
 			
@@ -366,8 +383,8 @@ public class Shooting : MonoBehaviour {
 		
 		
 	}
-
-
+	
+	
 	void Bomb()
 	{
 		foreach (Collider col in colliders)
@@ -375,20 +392,32 @@ public class Shooting : MonoBehaviour {
 			
 			if (col.collider.tag == "Enemy")
 			{
-
+				
 				Destroy(col.collider.gameObject);
 				
 			}
 			if(col.collider.gameObject.layer == 10)
 			{
 				Destroy(col.collider.gameObject);
-
+				
+			}
+			if(col.collider.gameObject.layer == 8)
+			{
+				Destroy(col.collider.gameObject);
 			}
 			
 		}
-
+		
 	}
 
+	void createShield()
+	{
+
+		shield = Instantiate(shieldPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
+		shield.transform.parent = Player.GetComponent<PlayerMovement>().transform;
+
+		shieldSet = true;
+	}
 	public void createAlly()
 	{
 		if (hasAlly == false)
@@ -413,12 +442,24 @@ public class Shooting : MonoBehaviour {
 			}
 			hasAlly = true;
 		}
-
+		
+		nbAlly = 3;
+		
 	}
-//	void OnTriggerEnter (Collider other) {
-//
-//						
-//			
-//		}
+
+	public void setShield()
+	{
+		if (shieldSet != true)
+			createShield();
+	
+		shieldSet = true;
+	}
+	
+	
+	//	void OnTriggerEnter (Collider other) {
+	//
+	//						
+	//			
+	//		}
 	
 }
