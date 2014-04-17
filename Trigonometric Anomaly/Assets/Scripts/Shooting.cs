@@ -83,10 +83,7 @@ public class Shooting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (hasShield == true)
-				{
-			createShield();
-				}
+
 		if (nbAlly == 0)
 		{
 			hasAlly = false;
@@ -453,7 +450,7 @@ public class Shooting : MonoBehaviour {
 		shield = Instantiate(shieldPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 		shield.transform.parent = Player.GetComponent<PlayerMovement>().transform;
 
-		shieldSet = true;
+		hasShield = true;
 	}
 	public void createAlly()
 	{
@@ -490,6 +487,7 @@ public class Shooting : MonoBehaviour {
 			createShield();
 	
 		shieldSet = true;
+		hasShield = true;
 	}
 	
 	

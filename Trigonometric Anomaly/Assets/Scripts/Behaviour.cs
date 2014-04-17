@@ -95,15 +95,15 @@ public class Behaviour : MonoBehaviour {
 		blues = GameObject.Find("Blues");
 		float separationWeight = 0.2f;
 		
-		Vector3 separation = computeSeparation(blues);
-		Vector3 targetDirection = separation * separationWeight;
-		targetDirection.Normalize();
+//		Vector3 separation = computeSeparation(blues);
+//		Vector3 targetDirection = separation * separationWeight;
+//		targetDirection.Normalize();
 		
 		
 		playerPosition = GameObject.Find("Player").transform.position;
 		Vector3 direction = playerPosition - gameObject.transform.position;
 		if(direction.magnitude < MIN_RANGE){
-			seek(playerPosition + targetDirection* maxVelocity*2);
+			seek(playerPosition);// + targetDirection* maxVelocity*2);
 		}else{
 			wander();
 		}
