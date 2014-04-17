@@ -90,10 +90,9 @@ public class PlayerMovement : MonoBehaviour {
 
 				if (collision.gameObject.layer == 11)
 				{
-						print("Hey");
 						//Destroy(gameObject);
-						GameController.Instance.togglePauseState();
-						Destroy(collision.gameObject);
+						GameController.Instance.pause();
+						//Destroy(collision.gameObject);
 		
 				}
 		}
