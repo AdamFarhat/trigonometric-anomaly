@@ -35,7 +35,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																																											GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																																												GlobalSection(MonoDevelopProperties) = preSolution
 																																																								GlobalSection(MonoDevelopProperties) = preSolution
 																																																									GlobalSection(MonoDevelopProperties) = preSolution
 																															GlobalSection(MonoDevelopProperties) = preSolution
@@ -72,45 +72,6 @@ Global
 		$3.inheritsScope = text/plain
 		$3.scope = text/plain
 		GlobalSection(MonoDevelopProperties) = preSolution
-	EndGlobalSection
-
-EndGlobal
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{B2D1B733-F397-079F-81CB-7099777D66C2}") = "Trigonometric Anomaly", "Assembly-CSharp-firstpass.csproj", "{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}"
-EndProject
-Project("{B2D1B733-F397-079F-81CB-7099777D66C2}") = "Trigonometric Anomaly", "Assembly-CSharp.csproj", "{8E6E93BC-2188-49BD-6319-4A60C0645196}"
-EndProject
-Project("{B2D1B733-F397-079F-81CB-7099777D66C2}") = "Trigonometric Anomaly", "Assembly-UnityScript-firstpass.unityproj", "{0D358F12-45DA-4E97-C570-F17FC9A875F7}"
-EndProject
-Project("{B2D1B733-F397-079F-81CB-7099777D66C2}") = "Trigonometric Anomaly", "Assembly-UnityScript-Editor.unityproj", "{16814D06-CD27-E568-9447-849E2FA65AAA}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D358F12-45DA-4E97-C570-F17FC9A875F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D358F12-45DA-4E97-C570-F17FC9A875F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D358F12-45DA-4E97-C570-F17FC9A875F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D358F12-45DA-4E97-C570-F17FC9A875F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16814D06-CD27-E568-9447-849E2FA65AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16814D06-CD27-E568-9447-849E2FA65AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16814D06-CD27-E568-9447-849E2FA65AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16814D06-CD27-E568-9447-849E2FA65AAA}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 																																																																																																													GlobalSection(MonoDevelopProperties) = preSolution
 																																																								GlobalSection(MonoDevelopProperties) = preSolution

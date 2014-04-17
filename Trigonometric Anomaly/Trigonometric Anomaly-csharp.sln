@@ -23,7 +23,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																																												GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																																													GlobalSection(MonoDevelopProperties) = preSolution
 																																																								GlobalSection(MonoDevelopProperties) = preSolution
 																																																									GlobalSection(MonoDevelopProperties) = preSolution
 																															GlobalSection(MonoDevelopProperties) = preSolution
@@ -61,34 +61,7 @@ Global
 		$3.scope = text/plain
 		GlobalSection(MonoDevelopProperties) = preSolution
 	EndGlobalSection
-
-EndGlobal
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{B2D1B733-F397-079F-81CB-7099777D66C2}") = "Trigonometric Anomaly", "Assembly-CSharp-firstpass-vs.csproj", "{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}"
-EndProject
-Project("{B2D1B733-F397-079F-81CB-7099777D66C2}") = "Trigonometric Anomaly", "Assembly-CSharp-vs.csproj", "{8E6E93BC-2188-49BD-6319-4A60C0645196}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB003E3D-9B3C-FD41-D82C-88CF13BEFC3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E6E93BC-2188-49BD-6319-4A60C0645196}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-																																																																																																														GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																																													GlobalSection(MonoDevelopProperties) = preSolution
 																																																								GlobalSection(MonoDevelopProperties) = preSolution
 																																																									GlobalSection(MonoDevelopProperties) = preSolution
 																															GlobalSection(MonoDevelopProperties) = preSolution
