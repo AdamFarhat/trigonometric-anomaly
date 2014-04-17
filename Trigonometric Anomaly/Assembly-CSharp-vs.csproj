@@ -46,6 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\3D Menu\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\3D Menu\MenuHandler.cs" />
+     <Compile Include="Assets\Scripts\3D Menu\MouseLook.cs" />
      <Compile Include="Assets\Scripts\AllyScript.cs" />
      <Compile Include="Assets\Scripts\AsteroidDebris.cs" />
      <Compile Include="Assets\Scripts\AsteroidParentCleaner.cs" />

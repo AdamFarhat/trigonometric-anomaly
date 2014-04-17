@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class AllyScript : MonoBehaviour {
@@ -7,7 +7,7 @@ public class AllyScript : MonoBehaviour {
 	public GameObject prefab;
 	public Transform target;
 	public float rotSpeed = 100f;
-	public float WaveSpeed = 600f;
+	public float WaveSpeed = 400f;
 	public float minDistance;
 	GameObject gameobject;
 	int ally = 1;
