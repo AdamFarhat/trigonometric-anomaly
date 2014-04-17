@@ -4,6 +4,7 @@ using System.Collections;
 public class ShopWindow : MonoBehaviour {
 	[SerializeField] public Rect windowSize = new Rect(0, 0, 500, 250);
 	[SerializeField] public Texture2D btn_1 = null;
+	[SerializeField] GameObject ShopMenuPrefab;
 	
 	private static ShopWindow _instance = null;
 	public static ShopWindow Instance
@@ -13,10 +14,16 @@ public class ShopWindow : MonoBehaviour {
 	
 	int price;
 	public string messageText;
+	public bool menuOpen = false;
 	GameObject camera;
+	GameObject menu;
 	public Texture2D shieldTexture;
 	public Texture2D allyTexture;
 	public Texture2D bombTexture;
+
+	GlowEffect glowEffect;
+
+
 	
 	
 	void Awake()
@@ -34,8 +41,10 @@ public class ShopWindow : MonoBehaviour {
 	}
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		camera = GameObject.FindGameObjectWithTag("MainCamera");
+		glowEffect = camera.GetComponent<GlowEffect>();
 		messageText = "";
 		price = 0;
 		this.enabled = false;
@@ -44,18 +53,24 @@ public class ShopWindow : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update () 
+	{//TODO: remove or comment if not complete
+		if(!menuOpen)
+		{//then open menu!
+			menuOpen = true;
+			glowEffect.glowIntensity = 1;
+			menu = Instantiate(ShopMenuPrefab,camera.transform.position - new Vector3(0,15,1),new Quaternion(0,0,0,0)) as GameObject ;
+		}
 	}
 	
-	void OnGUI () 
-	{
-		GUIStyle title = new GUIStyle(GUI.skin.GetStyle("Window"));
-		title.fontSize = 15;
-		title.fontStyle = FontStyle.Bold;
-		
-		GUI.Window(1, windowSize, createWindow, "Shop", title);
-	}
+//	void OnGUI () 
+//	{TODO:BY ADAM, REMOVED FOR TEST
+//		GUIStyle title = new GUIStyle(GUI.skin.GetStyle("Window"));
+//		title.fontSize = 15;
+//		title.fontStyle = FontStyle.Bold;
+//		
+//		GUI.Window(1, windowSize, createWindow, "Shop", title);
+//	}
 	
 	void createWindow(int id)
 	{
@@ -204,5 +219,12 @@ public class ShopWindow : MonoBehaviour {
 		GUI.Label(new Rect(windowSize.width / 2 - 240, windowSize.height - 60, 480, 30), messageText, centeredStyle);
 		GUI.Label(new Rect(windowSize.width / 2 - 240, windowSize.height - 30, 480, 30), "Close shop by pressing <ENTER>", centeredStyle);
 		GUI.DragWindow();
+	}
+
+	public void CloseShop()
+	{
+		menuOpen = false;
+		glowEffect.glowIntensity = 1.25f;
+		Destroy(menu);
 	}
 }

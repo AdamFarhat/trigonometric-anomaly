@@ -83,6 +83,7 @@ public class GameController : MonoBehaviour {
 		else if (Input.GetKeyDown(KeyCode.Return) && state == GameState.SHOPPING)
 		{
 			ShopWindow.Instance.enabled = false;
+			ShopWindow.Instance.CloseShop();
 			unpause();
 			ShopWindow.Instance.messageText = "";
 			state = GameState.PLAYING;
