@@ -17,6 +17,7 @@ public class EnumScript : MonoBehaviour
 		SpiralShot,
 		ForceField,
 		NPCShield,
-		ExtraLife
+		ExtraLife,
+		Back
 	};
 }

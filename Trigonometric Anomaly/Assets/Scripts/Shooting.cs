@@ -92,6 +92,7 @@ public class Shooting : MonoBehaviour {
 
 		explosionPosition = Player.transform.position;
 		colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
+
 		if ( Time.timeScale <= 0 ) return;
 		//Single Shot
 		if(Input.GetKeyUp (KeyCode.Alpha1))
@@ -120,9 +121,11 @@ public class Shooting : MonoBehaviour {
 		
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
+
 			if(numberBombs > 0)
 			{
-				explosion.GetComponent<AudioSource>().Play();
+				print(numberBombs);
+				//explosion.GetComponent<AudioSource>().Play();
 				numberBombs--;
 				Bomb();
 				Instantiate(bombPrefab, explosionPosition, Quaternion.identity);

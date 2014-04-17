@@ -177,8 +177,21 @@ public class ShopMenuHandler : MonoBehaviour
 			}
 			case(EnumScript.ShopMenuItems.ExtraLife):
 			{
+
 				break;
 			}
+
+			case(EnumScript.ShopMenuItems.Back):
+				{
+					
+					ShopWindow.Instance.enabled = false;
+					ShopWindow.Instance.CloseShop();
+					GameController.Instance.unpause();
+					ShopWindow.Instance.messageText = "";
+					GameController.Instance.state = GameController.GameState.PLAYING;
+
+				break;
+				}
 		}
 	}
 }
