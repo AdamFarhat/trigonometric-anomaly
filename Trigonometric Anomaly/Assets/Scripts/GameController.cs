@@ -17,6 +17,12 @@ public class GameController : MonoBehaviour {
 	[SerializeField] public int current_wave = 1;
 	[SerializeField] public GameState state =  GameState.PLAYING;
 
+	[SerializeField] public bool Bombs = false;
+	[SerializeField] public bool TripleShot = false;
+	[SerializeField] public bool SpiralShot = false;
+	[SerializeField] public bool Shield = false;
+	[SerializeField] public bool NPCShield = false;
+
 	private static GameController _instance = null;
 	public static GameController Instance
 	{
@@ -41,6 +47,29 @@ public class GameController : MonoBehaviour {
 	void Start () 
 	{
 		next_wave_timer = current_wave_length;
+
+		GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+
+		if(Bombs)
+		{
+			camera.GetComponent<Shooting>().numberBombs += 10;
+		}
+		if(TripleShot )
+		{
+			camera.GetComponent<Shooting>().tripleShotPurchased = true;
+		}
+	   	if(SpiralShot)
+		{
+			camera.GetComponent<Shooting>().spiralShotPurchased = true;
+		}
+		if(Shield)
+		{
+			camera.GetComponent<Shooting>().setShield();
+		}
+		if(NPCShield )
+		{
+			camera.GetComponent<Shooting>().tripleShotPurchased = true;
+		}
 	}
 	
 	// Update is called once per frame
