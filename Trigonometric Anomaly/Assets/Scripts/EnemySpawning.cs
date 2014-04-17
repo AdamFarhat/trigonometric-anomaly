@@ -9,7 +9,7 @@ public class EnemySpawning : MonoBehaviour {
 	GameObject greens;
 	GameObject reds;
 	private GameObject enemiesHierarchy;
-	int numberOfEnemies = 10;	//10
+	int numberOfEnemies = 20;	//10
 	BoxCollider box;
 	const float EDGE_CONSTRAINT = 0.5f;
 	const float EDGE_SPAWN_CONSTRAINT = 1.5f;

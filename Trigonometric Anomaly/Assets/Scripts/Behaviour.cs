@@ -21,9 +21,9 @@ public class Behaviour : MonoBehaviour {
 	float fleeAcceleration = 2.0f;
 	float fleeVelocity = 2.0f;
 	Vector3 playerPosition;
-	Vector3 cVelocity = new Vector3(0.1f, 0, 0.1f);
-	float maxAcceleration = 1.0f;
-	float maxVelocity = 5.0f;
+	Vector3 cVelocity = new Vector3(0.5f, 0, 0.5f);
+	float maxAcceleration = 8.0f;
+	float maxVelocity = 90.0f;
 	float timeBetweenUpdates = 1.0f/2.0f; //1/4
 	float wanderDegAngle;
 	float wanderRadianAngle;
@@ -127,6 +127,10 @@ public class Behaviour : MonoBehaviour {
 		float alignmentWeight = 0.1f;
 		float cohesionWeight = 0.15f;
 		float separationWeight = 0.2f;
+
+		playerPosition = GameObject.Find("Player").transform.position;
+
+		Vector3 direction = playerPosition - gameObject.transform.position;
 		
 		Vector3 alignment = computeAlignment(reds) + computeAlignment(blues);
 		Vector3 cohesion = computeCohesion(reds) + computeCohesion(blues);
@@ -137,11 +141,17 @@ public class Behaviour : MonoBehaviour {
 		if (targetDirection != Vector3.zero)
 		{
 			seek(this.transform.position + targetDirection * maxVelocity);
+		
+			if(direction.magnitude < MIN_RANGE){
+				seek(playerPosition);// + targetDirection* maxVelocity*2);
+			}
+		
 		} 
 		else
 		{
 			wander();
 		}
+
 	}
 	
 	Vector3 computeAlignment(GameObject group){
@@ -262,10 +272,10 @@ public class Behaviour : MonoBehaviour {
 	void seek(Vector3 position){
 		Vector3 distance = position - gameObject.transform.position;
 		Vector3 acceleration = (distance / distance.magnitude) * maxAcceleration;
-		Vector3 velocity = cVelocity + (acceleration * timeBetweenUpdates);
+		Vector3 velocity = cVelocity  + (acceleration * timeBetweenUpdates);
 		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, Quaternion.LookRotation (velocity), Time.deltaTime);
 		if(velocity.magnitude < maxVelocity){
-			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, position, 10f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
+			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, position, 15f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
 			
 		}
 	}
@@ -303,7 +313,9 @@ public class Behaviour : MonoBehaviour {
 		}
 		gameObject.transform.name = enemyType.ToString();
 	}
-	
+
+
+
 		void OnTriggerEnter(Collider collision)
 		{
 			if (collision.gameObject.tag == "Bullet") {
@@ -328,11 +340,11 @@ public class Behaviour : MonoBehaviour {
 			if (collision.gameObject.layer == 13)
 				{
 
-					bool has = false;
-					Destroy(collision.gameObject);
-					camera.GetComponent<Shooting>().hasShield = false;
-					camera.GetComponent<Shooting>().shieldSet = false;
-					Destroy(gameObject);
+						bool has = false;
+						Destroy(collision.gameObject);
+						camera.GetComponent<Shooting>().hasShield = false;
+						camera.GetComponent<Shooting>().shieldSet = false;
+						Destroy(gameObject);
 				}
 			
 		}

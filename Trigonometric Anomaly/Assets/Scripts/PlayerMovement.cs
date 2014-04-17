@@ -85,4 +85,16 @@ public class PlayerMovement : MonoBehaviour {
 		Vector3 newPosition = myPosition + currentVelocity * delta_time;
 		this.transform.position = newPosition;
 	}
+
+	void OnTriggerEnter(Collider collision){
+
+				if (collision.gameObject.layer == 11)
+				{
+						print("Hey");
+						//Destroy(gameObject);
+						GameController.Instance.togglePauseState();
+						Destroy(collision.gameObject);
+		
+				}
+		}
 }
