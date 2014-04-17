@@ -50,8 +50,9 @@ public class Shooting : MonoBehaviour {
 	GameObject shotHierarchy;
 	
 	Vector3 explosionPosition;
+	GameObject explosion;
 	
-	float explosionRadius = 25.0f;
+	float explosionRadius = 50.0f;
 	
 	Collider[] colliders;
 	
@@ -63,6 +64,8 @@ public class Shooting : MonoBehaviour {
 	void Start () 
 	{
 		shotHierarchy = new GameObject("ShotList");
+
+		explosion = GameObject.FindGameObjectWithTag("Explosion");
 
 		hasShield = false;
 		allySet = false;
@@ -122,6 +125,7 @@ public class Shooting : MonoBehaviour {
 		{
 			if(numberBombs > 0)
 			{
+				explosion.GetComponent<AudioSource>().Play();
 				numberBombs--;
 				Bomb();
 				Instantiate(bombPrefab, explosionPosition, Quaternion.identity);

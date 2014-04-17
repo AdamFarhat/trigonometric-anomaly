@@ -74,7 +74,7 @@ public class ShopWindow : MonoBehaviour {
 		GUILayout.BeginHorizontal();
 		
 		GUILayout.BeginVertical();
-		if (GUILayout.Button(bombTexture))
+		if (GUILayout.Button(new GUIContent("Bomb", bombTexture)))
 		{
 			price = 5000;
 			if((ScoreController.Instance.score - price) >= 0)
@@ -96,7 +96,7 @@ public class ShopWindow : MonoBehaviour {
 		GUILayout.EndVertical();
 		
 		GUILayout.BeginVertical();
-		if (GUILayout.Button("Triple Shot"))
+		if (GUILayout.Button("Double Shot"))
 		{
 			price = 50000;
 			if (camera.GetComponent<Shooting>().tripleShotPurchased != true)
@@ -147,9 +147,9 @@ public class ShopWindow : MonoBehaviour {
 		
 		GUILayout.BeginHorizontal();
 		GUILayout.BeginVertical();
-
-		if (GUILayout.Button(shieldTexture))
-				{
+		
+		if (GUILayout.Button(new GUIContent("Shield",shieldTexture)))
+		{
 			price = 10000;
 			if(camera.GetComponent<Shooting>().hasShield != true)
 			{
@@ -166,12 +166,12 @@ public class ShopWindow : MonoBehaviour {
 			else{
 				messageText = "You already purchase this item!";
 			}
-
-				}
+			
+		}
 		GUILayout.Label("10000", centeredStyle);
 		GUILayout.EndVertical();
 		GUILayout.BeginVertical();
-		if (GUILayout.Button(allyTexture))
+		if (GUILayout.Button(new GUIContent("Allies", allyTexture)))
 		{
 			price = 40000;
 			if (camera.GetComponent<Shooting>().hasAlly != true)
@@ -193,7 +193,6 @@ public class ShopWindow : MonoBehaviour {
 		}
 		GUILayout.Label("40000", centeredStyle);
 		GUILayout.EndVertical();
-		GUILayout.Button("Button");
 		GUILayout.EndHorizontal();
 		GUILayout.EndVertical();
 		
