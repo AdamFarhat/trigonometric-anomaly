@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour {
 	[SerializeField] public float next_wave_timer = 0f;
 	[SerializeField] public float current_wave_length = 5f;
 	[SerializeField] public int current_wave = 1;
+	[SerializeField] public int NumberOfEnemies;
 	[SerializeField] public GameState state =  GameState.PLAYING;
 
 	[SerializeField] public bool Bombs = false;
@@ -22,6 +23,9 @@ public class GameController : MonoBehaviour {
 	[SerializeField] public bool SpiralShot = false;
 	[SerializeField] public bool Shield = false;
 	[SerializeField] public bool NPCShield = false;
+
+	int roundWaveCount;
+	public int enemyWaveCount;
 
 	private static GameController _instance = null;
 	public static GameController Instance
@@ -46,7 +50,10 @@ public class GameController : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		next_wave_timer = current_wave_length;
+		//next_wave_timer = current_wave_length;
+
+		//EnemySpawning es = GameObject.FindGameObjectWithTag("EnemySpawner").GetComponent<EnemySpawning>();
+		roundWaveCount = NumberOfEnemies;
 
 		GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
 
@@ -75,6 +82,8 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
+
+
 		//Pause/unpause
 		if (Input.GetKeyDown(KeyCode.Return) && state == GameState.PLAYING)
 		{
@@ -90,21 +99,27 @@ public class GameController : MonoBehaviour {
 
 		}
 
-		next_wave_timer -= Time.deltaTime;
+		//next_wave_timer -= Time.deltaTime;
 
 		//Reset timer
 		//New wave spawning, pause game and open shop window
-		if (next_wave_timer <= 0f)
+		if (enemyWaveCount <= 0)
 		{
-			next_wave_timer = current_wave_length;
-			current_wave++;
-			wave_label.text = "Wave " + current_wave;
+			//next_wave_timer = current_wave_length;
+			float incr = roundWaveCount * 1.2f;
+			roundWaveCount = (int)incr;
+			enemyWaveCount = roundWaveCount;
+
+			//current_wave++;
+
 
 			//Popup shop
 			Time.timeScale = 0f;
 			state = GameState.SHOPPING;
 			ShopWindow.Instance.enabled = true;
 		}
+
+		wave_label.text = "EnemyCount =" + (roundWaveCount -enemyWaveCount);
 
 		//Display timer
 		if(timer_label != null)

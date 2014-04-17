@@ -18,16 +18,21 @@ public class EnemySpawning : MonoBehaviour {
 	float maxTime = 5.0f;	//5.0f
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
+		numberOfEnemies = GameController.Instance.NumberOfEnemies;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 		//correctBoxScale();
-		if(GameObject.Find("Enemy Spawner") == null){
+		if(GameObject.Find("Enemy Spawner") == null)
+		{
 			enemySpawner = new GameObject("Enemy Spawner");
+			//enemySpawner.tag = "EnemySpawner";
 			blues = new GameObject("Blues");
 			blues.transform.parent = enemySpawner.transform;
 			greens = new GameObject("Greens");
 			greens.transform.parent = enemySpawner.transform;
 			reds = new GameObject("Reds");
+
 			reds.transform.parent = enemySpawner.transform;
 			enemySpawner.transform.parent = GameObject.Find("_Spawners").transform;
 		}
@@ -35,9 +40,11 @@ public class EnemySpawning : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		elapsedTime += Time.deltaTime;
-		if(elapsedTime > maxTime){
+		if(elapsedTime > maxTime)
+		{
 			spawnEnemies();
 			elapsedTime = 0.0f;
 		}
@@ -46,7 +53,8 @@ public class EnemySpawning : MonoBehaviour {
 
 	void correctBoxScale(){
 		float ratio = (float)Screen.width / (float)Screen.height;	
-		if(ratio > 1.7f){
+		if(ratio > 1.7f)
+		{
 			box.transform.localScale = new Vector3(box.transform.localScale.x * 1.6f, 
 												   box.transform.localScale.y, 
 												   box.transform.localScale.z * 0.9f);
@@ -54,8 +62,10 @@ public class EnemySpawning : MonoBehaviour {
 			
 	}
 
-	void spawnEnemies(){
-		for (int i = 0; i < numberOfEnemies; ++i) {
+	void spawnEnemies()
+	{
+		for (int i = 0; i < numberOfEnemies; ++i) 
+		{
 			int enemyLoc = Random.Range(0,4);
 			Vector3 pos = getPosition(enemyLoc);			
 			GameObject enemy = Instantiate (prefab, pos, Quaternion.identity) as GameObject;
@@ -63,7 +73,8 @@ public class EnemySpawning : MonoBehaviour {
 			//Random number between 0 and number of enemy types - 1 (to account for NONE)
 			int enemyType = Random.Range (0, System.Enum.GetNames(typeof(EnumScript.EnemyType)).Length - 1);
 
-			switch(enemyType){
+			switch(enemyType)
+			{
 				case 0:		//BLUE
 					enemy.transform.parent = blues.transform;
 					break;
