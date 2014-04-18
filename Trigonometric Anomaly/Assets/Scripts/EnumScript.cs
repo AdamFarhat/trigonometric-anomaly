@@ -7,6 +7,7 @@ public class EnumScript : MonoBehaviour
 		BLUE_ENEMY,
 		GREEN_ENEMY,
 		RED_ENEMY,
+		YELLOW_ENEMY,
 		NONE
 	};
 

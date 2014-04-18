@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//Flocking coding:http://gamedevelopment.tutsplus.com/tutorials/the-three-simple-rules-of-flocking-behaviors-alignment-cohesion-and-separation--gamedev-3444
-
 public class Behaviour : MonoBehaviour {
 	
 	//default behaviour int to NONE (size - 1)
@@ -13,6 +11,8 @@ public class Behaviour : MonoBehaviour {
 	Material blueMat;
 	Material greenMat;
 	Material redMat;
+	Material yellowLeaderMat;
+	Material yellowMat;
 	
 	public float lowEnemyHealth;
 	
@@ -42,7 +42,7 @@ public class Behaviour : MonoBehaviour {
 	
 	GameObject camera;
 	int points;
-	
+
 	// Use this for initialization
 	void Start () {
 		lowEnemyHealth = 2f;
@@ -50,6 +50,8 @@ public class Behaviour : MonoBehaviour {
 		blueMat = Resources.Load ("Materials/blue") as Material;
 		greenMat = Resources.Load("Materials/green") as Material;
 		redMat = Resources.Load ("Materials/red") as Material;
+		yellowLeaderMat = Resources.Load ("Materials/orange") as Material;
+		yellowMat = Resources.Load ("Materials/yellow") as Material;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 		
 		wanderDegAngle = Random.Range (0, 359);
@@ -86,8 +88,30 @@ public class Behaviour : MonoBehaviour {
 		case EnumScript.EnemyType.RED_ENEMY:
 			redBehaviour();
 			break;
+			//Patterned line movement in snake-like fashion.
+		case EnumScript.EnemyType.YELLOW_ENEMY:
+			yellowBehaviour();
+			break;
 		case EnumScript.EnemyType.NONE:
 			break;
+		}
+	}
+
+	void yellowBehaviour(){
+		wander ();
+
+		//Get children
+		for(int i = 0; i < gameObject.transform.childCount; ++i){
+			if(i==0){
+				gameObject.transform.GetChild(i).RotateAround(gameObject.transform.position, Vector3.up, wanderRadianAngle);
+				gameObject.transform.GetChild(i).LookAt(gameObject.transform.position);
+			}
+			else{
+				if((gameObject.transform.GetChild(i-1).position - gameObject.transform.GetChild(i).position).magnitude > 2){
+					gameObject.transform.GetChild(i).LookAt (gameObject.transform.GetChild(i-1));
+					gameObject.transform.GetChild(i).Translate(Vector3.forward * .09f);
+				}
+			}
 		}
 	}
 	
@@ -306,9 +330,15 @@ public class Behaviour : MonoBehaviour {
 			enemyType = EnumScript.EnemyType.RED_ENEMY;
 			gameObject.renderer.material = redMat;
 			break;
-		case 3:	//NONE
+		case 3: //YELLOW
+			enemyType = EnumScript.EnemyType.YELLOW_ENEMY;
+			gameObject.renderer.material = yellowLeaderMat;
+			for(int i = 0; i < gameObject.transform.childCount; ++i){
+				gameObject.transform.GetChild(i).renderer.material = yellowMat;
+			}
+			break;
+		case 4:	//NONE
 			enemyType = EnumScript.EnemyType.NONE;
-			gameObject.renderer.material = redMat;
 			break;
 		}
 		gameObject.transform.name = enemyType.ToString();

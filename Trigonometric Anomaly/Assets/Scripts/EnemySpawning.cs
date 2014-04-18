@@ -4,12 +4,14 @@ using System.Collections;
 public class EnemySpawning : MonoBehaviour {
 	
 	public GameObject prefab;
+	public GameObject prefab_child;
 	GameObject enemySpawner;
 	GameObject blues;
 	GameObject greens;
 	GameObject reds;
+	GameObject yellows;
 	private GameObject enemiesHierarchy;
-	int numberOfEnemies = 20;	//10
+	int numberOfEnemies = 10;	//10
 	BoxCollider box;
 	BoxCollider activeBox;
 	const float EDGE_CONSTRAINT = 0.5f;
@@ -32,6 +34,8 @@ public class EnemySpawning : MonoBehaviour {
 			greens.transform.parent = enemySpawner.transform;
 			reds = new GameObject("Reds");
 			reds.transform.parent = enemySpawner.transform;
+			yellows = new GameObject("Yellows");
+			yellows.transform.parent = enemySpawner.transform;
 			enemySpawner.transform.parent = GameObject.Find("_Spawners").transform;
 		}
 		spawnEnemies ();
@@ -75,8 +79,7 @@ public class EnemySpawning : MonoBehaviour {
 			GameObject enemy = Instantiate (prefab, pos, Quaternion.identity) as GameObject;
 			
 			//Random number between 0 and number of enemy types - 1 (to account for NONE)
-			int enemyType = Random.Range (0, System.Enum.GetNames(typeof(EnumScript.EnemyType)).Length - 1);
-			
+			int enemyType = Random.Range (0, System.Enum.GetNames(typeof(EnumScript.EnemyType)).Length - 1);		
 			switch(enemyType){
 			case 0:		//BLUE
 				enemy.transform.parent = blues.transform;
@@ -87,13 +90,54 @@ public class EnemySpawning : MonoBehaviour {
 			case 2:		//RED
 				enemy.transform.parent = reds.transform;	
 				break;
+			case 3:		//YELLOW
+				//create line of enemies
+				foreach(GameObject child in createEnemyLine(enemy)){
+					child.transform.parent = enemy.transform;
+					child.AddComponent<Behaviour>();
+					
+				}
+				enemy.transform.parent = yellows.transform;
+				break;
 			}
 			enemy.GetComponent<Behaviour>().behaviourInt = enemyType;
 		}
 	}
 	
+	GameObject[] createEnemyLine(GameObject head){
+		int lineLength = 16;
+		float distanceBetween = 2.0f;
+		GameObject[] enemyLine = new GameObject[lineLength];
+		float angle = 0;
+		for(int i = 0; i < lineLength; ++i){
+			Vector3 pos_child;
+			float x = 0, y = 0, z = 0;
+			if(i == 0){			
+				angle = 180 * Mathf.Deg2Rad;
+				x = Mathf.Round (head.transform.position.x + (distanceBetween * Mathf.Sin (angle)));
+				y = head.transform.position.y;
+				z = Mathf.Round (head.transform.position.z + (distanceBetween * Mathf.Cos(angle)));
+			}else{
+				float angleBounds = 0.3f;
+				angle = Random.Range (angle  - angleBounds, angle + angleBounds);
+				x = Mathf.Round (enemyLine[i-1].transform.position.x + (distanceBetween * Mathf.Sin (angle)));
+				y = enemyLine[i-1].transform.position.y;
+				z = Mathf.Round (enemyLine[i-1].transform.position.z + (distanceBetween * Mathf.Cos(angle)));
+			}
+			
+			pos_child = new Vector3(x,y,z);
+			enemyLine[i] = Instantiate (prefab_child, pos_child, Quaternion.identity) as GameObject;
+			enemyLine[i].transform.LookAt(head.transform);
+			if(i == 0 || i == 1){
+				enemyLine[i].renderer.enabled = false;
+				enemyLine[i].GetComponent<BoxCollider>().enabled = false;
+			}
+		}
+		return enemyLine;
+	}
+
 	Vector3 getPosition(int enemyLoc){
-		Vector3 pos = new Vector3();
+		Vector3 pos = new Vector3();	//()
 		switch(enemyLoc){
 		case 0:		//north
 			pos = new Vector3(Random.Range(box.bounds.min.x + EDGE_CONSTRAINT, box.bounds.max.x - EDGE_CONSTRAINT), 
