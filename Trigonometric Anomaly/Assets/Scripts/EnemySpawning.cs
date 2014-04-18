@@ -53,7 +53,7 @@ public class EnemySpawning : MonoBehaviour {
 	{
 		elapsedTime += Time.deltaTime;
 		if(elapsedTime > maxTime){
-			numberOfEnemies = (int)(numberOfEnemies * 1.1);
+			numberOfEnemies = (int)(numberOfEnemies * 1.2);
 			ScoreController.Instance.EnemyWaveLength = numberOfEnemies;
 			spawnEnemies();
 			destroyFarEnemies();

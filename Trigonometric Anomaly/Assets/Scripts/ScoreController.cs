@@ -43,11 +43,6 @@ public class ScoreController : MonoBehaviour {
 	{
 	}
 
-	void OnGUI() 
-	{
-		GUI.TextArea(new Rect(10, 10, 150, 100), EnemyKillCount.ToString()+ "/" + EnemyWaveLength.ToString());	
-	}
-
 	public void addScore(int points)
 	{
 		this.score += points;

@@ -80,51 +80,53 @@ public class GameController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		//Pause/unpause
-		if (Input.GetKeyDown(KeyCode.Return) && state == GameState.PLAYING)
-		{
-			togglePauseState();
-			//Popup shop
-			Time.timeScale = 0f;
-			state = GameState.SHOPPING;
-			ShopWindow.Instance.enabled = true;
-		} 
-		else if (Input.GetKeyDown(KeyCode.Return) && state == GameState.SHOPPING)
-		{
-			ShopWindow.Instance.enabled = false;
-			ShopWindow.Instance.CloseShop();
-			unpause();
-			ShopWindow.Instance.messageText = "";
-			state = GameState.PLAYING;
+		if(state != GameState.GAME_OVER)
+		{	//Pause/unpause
+			if (Input.GetKeyDown(KeyCode.Return) && state == GameState.PLAYING)
+			{
+				togglePauseState();
+				//Popup shop
+				Time.timeScale = 0f;
+				state = GameState.SHOPPING;
+				ShopWindow.Instance.enabled = true;
+			} 
+			else if (Input.GetKeyDown(KeyCode.Return) && state == GameState.SHOPPING)
+			{
+				ShopWindow.Instance.enabled = false;
+				ShopWindow.Instance.CloseShop();
+				unpause();
+				ShopWindow.Instance.messageText = "";
+				state = GameState.PLAYING;
+				
+			}
 			
-		}
-		
-		//		if (state == GameState.GAME_OVER)
-		//				{
-		//					Gameoverscore.Instance.enabled = true;
-		//
-		//				}
-		
-		next_wave_timer -= Time.deltaTime;
-		
-		//Reset timer
-		//New wave spawning, pause game and open shop window
-		if (next_wave_timer <= 0f)
-		{
-			next_wave_timer = current_wave_length;
-			current_wave++;
-			wave_label.text = "Wave " + current_wave;
+			//		if (state == GameState.GAME_OVER)
+			//				{
+			//					Gameoverscore.Instance.enabled = true;
+			//
+			//				}
 			
-//			//Popup shop
-//			Time.timeScale = 0f;
-//			state = GameState.SHOPPING;
-//			ShopWindow.Instance.enabled = true;
-		}
-		
-		//Display timer
-		if(timer_label != null)
-		{
-			timer_label.text = "Next wave in " + convertTimeToText(next_wave_timer);
+			next_wave_timer -= Time.deltaTime;
+			
+			//Reset timer
+			//New wave spawning, pause game and open shop window
+			if (next_wave_timer <= 0f)
+			{
+				next_wave_timer = current_wave_length;
+				current_wave++;
+				wave_label.text = "Wave " + current_wave;
+				
+	//			//Popup shop
+	//			Time.timeScale = 0f;
+	//			state = GameState.SHOPPING;
+	//			ShopWindow.Instance.enabled = true;
+			}
+			
+			//Display timer
+			if(timer_label != null)
+			{
+				timer_label.text = "Next wave in " + convertTimeToText(next_wave_timer);
+			}
 		}
 	}
 	
@@ -159,6 +161,7 @@ public class GameController : MonoBehaviour
 
 	public void GameOver()
 	{
+		state = GameState.GAME_OVER;
 		camera.GetComponent<GlowEffect>().glowIntensity = 1;
 		Instantiate(GameOverScreen,camera.transform.position - new Vector3(0,15,1),new Quaternion(0,0,0,0));
 		pause();
