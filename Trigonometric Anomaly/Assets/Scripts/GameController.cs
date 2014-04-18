@@ -9,24 +9,20 @@ public class GameController : MonoBehaviour {
 		SHOPPING,
 		GAME_OVER
 	}
-
+	
 	[SerializeField] public GUIText wave_label = null;
 	[SerializeField] public GUIText timer_label = null;
 	[SerializeField] public float next_wave_timer = 0f;
 	[SerializeField] public float current_wave_length = 5f;
 	[SerializeField] public int current_wave = 1;
-	[SerializeField] public int NumberOfEnemies;
 	[SerializeField] public GameState state =  GameState.PLAYING;
-
+	
 	[SerializeField] public bool Bombs = false;
 	[SerializeField] public bool TripleShot = false;
 	[SerializeField] public bool SpiralShot = false;
 	[SerializeField] public bool Shield = false;
 	[SerializeField] public bool NPCShield = false;
-
-	int roundWaveCount;
-	public int enemyWaveCount;
-
+	
 	private static GameController _instance = null;
 	public static GameController Instance
 	{
@@ -46,17 +42,14 @@ public class GameController : MonoBehaviour {
 		}
 		DontDestroyOnLoad(this.gameObject);
 	}
-
+	
 	// Use this for initialization
 	void Start () 
 	{
-		//next_wave_timer = current_wave_length;
-
-		//EnemySpawning es = GameObject.FindGameObjectWithTag("EnemySpawner").GetComponent<EnemySpawning>();
-		roundWaveCount = NumberOfEnemies;
-
+		next_wave_timer = current_wave_length;
+		
 		GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
-
+		
 		if(Bombs)
 		{
 			camera.GetComponent<Shooting>().numberBombs += 10;
@@ -65,7 +58,7 @@ public class GameController : MonoBehaviour {
 		{
 			camera.GetComponent<Shooting>().tripleShotPurchased = true;
 		}
-	   	if(SpiralShot)
+		if(SpiralShot)
 		{
 			camera.GetComponent<Shooting>().spiralShotPurchased = true;
 		}
@@ -82,8 +75,6 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
 	{
-
-
 		//Pause/unpause
 		if (Input.GetKeyDown(KeyCode.Return) && state == GameState.PLAYING)
 		{
@@ -96,38 +87,38 @@ public class GameController : MonoBehaviour {
 			unpause();
 			ShopWindow.Instance.messageText = "";
 			state = GameState.PLAYING;
-
+			
 		}
-
-		//next_wave_timer -= Time.deltaTime;
-
+		
+		//		if (state == GameState.GAME_OVER)
+		//				{
+		//					Gameoverscore.Instance.enabled = true;
+		//
+		//				}
+		
+		next_wave_timer -= Time.deltaTime;
+		
 		//Reset timer
 		//New wave spawning, pause game and open shop window
-		if (enemyWaveCount <= 0)
+		if (next_wave_timer <= 0f)
 		{
-			//next_wave_timer = current_wave_length;
-			float incr = roundWaveCount * 1.2f;
-			roundWaveCount = (int)incr;
-			enemyWaveCount = roundWaveCount;
-
-			//current_wave++;
-
-
+			next_wave_timer = current_wave_length;
+			current_wave++;
+			wave_label.text = "Wave " + current_wave;
+			
 			//Popup shop
 			Time.timeScale = 0f;
 			state = GameState.SHOPPING;
 			ShopWindow.Instance.enabled = true;
 		}
-
-		wave_label.text = "EnemyCount =" + (roundWaveCount -enemyWaveCount);
-
+		
 		//Display timer
 		if(timer_label != null)
 		{
 			timer_label.text = "Next wave in " + convertTimeToText(next_wave_timer);
 		}
 	}
-
+	
 	/// <summary>
 	/// Converts a float representing seconds into the following
 	/// string format MM:ss
@@ -138,20 +129,20 @@ public class GameController : MonoBehaviour {
 	{
 		string minutes = ((int)(time / 60f)).ToString();
 		string seconds = ((int)(time % 60f)).ToString();
-
+		
 		return minutes.PadLeft(2, '0') + ":" + seconds.PadLeft(2, '0');
 	}
-
+	
 	public void togglePauseState()
 	{
 		Time.timeScale = (-1f * Time.timeScale + 1);
 	}
-
+	
 	public void pause()
 	{
 		Time.timeScale = 0f;
 	}
-
+	
 	public void unpause()
 	{
 		Time.timeScale = 1f;

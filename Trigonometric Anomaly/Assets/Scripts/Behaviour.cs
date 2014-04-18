@@ -38,14 +38,14 @@ public class Behaviour : MonoBehaviour {
 	GameObject blues;
 	float alignmentThreshold = 3f;
 	float cohesionThreshold = 25.0f;
-	float separationThreshold = 5f;
-
+	float separationThreshold = 10f;
+	
 	GameObject camera;
 	int points;
 	
 	// Use this for initialization
 	void Start () {
-		lowEnemyHealth = 4f;
+		lowEnemyHealth = 2f;
 		camera = GameObject.FindGameObjectWithTag("MainCamera");
 		blueMat = Resources.Load ("Materials/blue") as Material;
 		greenMat = Resources.Load("Materials/green") as Material;
@@ -62,32 +62,32 @@ public class Behaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		
 		if (ShopWindow.Instance.enabled == true)
-				{
-						if (renderer.isVisible)
-						{
-							Destroy(gameObject);
-						}
-				}
-				
+		{
+			if (renderer.isVisible)
+			{
+				Destroy(gameObject);
+			}
+		}
+		
 		//		boundaryCheck();
 		
 		switch(enemyType){
 			//Most basic enemy type; random movement.
-			case EnumScript.EnemyType.BLUE_ENEMY:
-				blueBehaviour();
-				break;
-				//Random movement but will try to evade player.
-			case EnumScript.EnemyType.GREEN_ENEMY:
-				greenBehaviour();
-				break;
-				//Flocking behaviour
-			case EnumScript.EnemyType.RED_ENEMY:
-				redBehaviour();
-				break;
-			case EnumScript.EnemyType.NONE:
-				break;
+		case EnumScript.EnemyType.BLUE_ENEMY:
+			blueBehaviour();
+			break;
+			//Random movement but will try to evade player.
+		case EnumScript.EnemyType.GREEN_ENEMY:
+			greenBehaviour();
+			break;
+			//Flocking behaviour
+		case EnumScript.EnemyType.RED_ENEMY:
+			redBehaviour();
+			break;
+		case EnumScript.EnemyType.NONE:
+			break;
 		}
 	}
 	
@@ -95,9 +95,9 @@ public class Behaviour : MonoBehaviour {
 		blues = GameObject.Find("Blues");
 		float separationWeight = 0.2f;
 		
-//		Vector3 separation = computeSeparation(blues);
-//		Vector3 targetDirection = separation * separationWeight;
-//		targetDirection.Normalize();
+		//		Vector3 separation = computeSeparation(blues);
+		//		Vector3 targetDirection = separation * separationWeight;
+		//		targetDirection.Normalize();
 		
 		
 		playerPosition = GameObject.Find("Player").transform.position;
@@ -125,11 +125,11 @@ public class Behaviour : MonoBehaviour {
 		blues = GameObject.Find("Blues");
 		
 		float alignmentWeight = 0.1f;
-		float cohesionWeight = 0.15f;
-		float separationWeight = 0.2f;
-
+		float cohesionWeight = 0.4f;
+		float separationWeight = 0.4f;
+		
 		playerPosition = GameObject.Find("Player").transform.position;
-
+		
 		Vector3 direction = playerPosition - gameObject.transform.position;
 		
 		Vector3 alignment = computeAlignment(reds) + computeAlignment(blues);
@@ -141,17 +141,17 @@ public class Behaviour : MonoBehaviour {
 		if (targetDirection != Vector3.zero)
 		{
 			seek(this.transform.position + targetDirection * maxVelocity);
-		
+			
 			if(direction.magnitude < MIN_RANGE){
 				seek(playerPosition);// + targetDirection* maxVelocity*2);
 			}
-		
+			
 		} 
 		else
 		{
 			wander();
 		}
-
+		
 	}
 	
 	Vector3 computeAlignment(GameObject group){
@@ -294,59 +294,59 @@ public class Behaviour : MonoBehaviour {
 	
 	void intToEnum(){
 		switch(behaviourInt){
-			case 0:	//BLUE
-				enemyType = EnumScript.EnemyType.BLUE_ENEMY;
-				gameObject.renderer.material = blueMat;
-				break;
-			case 1: //GREEN
-				enemyType = EnumScript.EnemyType.GREEN_ENEMY;
-				gameObject.renderer.material = greenMat;
-				break;
-			case 2: //RED
-				enemyType = EnumScript.EnemyType.RED_ENEMY;
-				gameObject.renderer.material = redMat;
-				break;
-			case 3:	//NONE
-				enemyType = EnumScript.EnemyType.NONE;
-				gameObject.renderer.material = redMat;
-				break;
+		case 0:	//BLUE
+			enemyType = EnumScript.EnemyType.BLUE_ENEMY;
+			gameObject.renderer.material = blueMat;
+			break;
+		case 1: //GREEN
+			enemyType = EnumScript.EnemyType.GREEN_ENEMY;
+			gameObject.renderer.material = greenMat;
+			break;
+		case 2: //RED
+			enemyType = EnumScript.EnemyType.RED_ENEMY;
+			gameObject.renderer.material = redMat;
+			break;
+		case 3:	//NONE
+			enemyType = EnumScript.EnemyType.NONE;
+			gameObject.renderer.material = redMat;
+			break;
 		}
 		gameObject.transform.name = enemyType.ToString();
 	}
-
-
-
-		void OnTriggerEnter(Collider collision)
-		{
-			if (collision.gameObject.tag == "Bullet") {
-				if (lowEnemyHealth <= 0)
+	
+	
+	
+	void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.tag == "Bullet") {
+			if (lowEnemyHealth <= 0)
+			{
+				if(behaviourInt == 0)
 				{
-					if(behaviourInt == 0)
-					{
-						ScoreController.Instance.addScore(1000);
-					}
-					if(behaviourInt == 1)
-					{
-						ScoreController.Instance.addScore(2000);
-					}
-					if(behaviourInt == 2)
-					{
-						ScoreController.Instance.addScore(3000);
-					}
+					ScoreController.Instance.addScore(1000);
+				}
+				if(behaviourInt == 1)
+				{
+					ScoreController.Instance.addScore(2000);
+				}
+				if(behaviourInt == 2)
+				{
+					ScoreController.Instance.addScore(3000);
+				}
 				Destroy(gameObject);
-				}
 			}
-
-			if (collision.gameObject.layer == 13)
-				{
-
-						bool has = false;
-						Destroy(collision.gameObject);
-						camera.GetComponent<Shooting>().hasShield = false;
-						camera.GetComponent<Shooting>().shieldSet = false;
-						Destroy(gameObject);
-				}
-			
 		}
+		
+		if (collision.gameObject.layer == 13)
+		{
+			
+			bool has = false;
+			Destroy(collision.gameObject);
+			camera.GetComponent<Shooting>().hasShield = false;
+			camera.GetComponent<Shooting>().shieldSet = false;
+			Destroy(gameObject);
+		}
+		
+	}
 }
 

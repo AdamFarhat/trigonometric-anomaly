@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Shooting : MonoBehaviour {
-	
+
 	AudioClip Trigger;
 	//Used for Bullet Types
 	int shotType = 0;
@@ -46,11 +46,11 @@ public class Shooting : MonoBehaviour {
 	GameObject Player;
 	GameObject shield;
 	GameObject parentObj;
-
+	
 	GameObject shotHierarchy;
 	
 	Vector3 explosionPosition;
-	GameObject explosion;
+	//GameObject explosion;
 	
 	float explosionRadius = 50.0f;
 	
@@ -64,9 +64,9 @@ public class Shooting : MonoBehaviour {
 	void Start () 
 	{
 		shotHierarchy = new GameObject("ShotList");
-
-		explosion = GameObject.FindGameObjectWithTag("Explosion");
-
+		
+		//explosion = GameObject.FindGameObjectWithTag("Explosion");
+		
 		hasShield = false;
 		allySet = false;
 		shieldSet = false;
@@ -83,16 +83,15 @@ public class Shooting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
 		if (nbAlly == 0)
 		{
 			hasAlly = false;
 			allySet = false;
 		}
-
+		
 		explosionPosition = Player.transform.position;
 		colliders = Physics.OverlapSphere(explosionPosition, explosionRadius);
-
+		
 		if ( Time.timeScale <= 0 ) return;
 		//Single Shot
 		if(Input.GetKeyUp (KeyCode.Alpha1))
@@ -121,7 +120,7 @@ public class Shooting : MonoBehaviour {
 		
 		if (Input.GetKeyUp(KeyCode.Space))
 		{
-
+			
 			if(numberBombs > 0)
 			{
 				print(numberBombs);
@@ -219,12 +218,12 @@ public class Shooting : MonoBehaviour {
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj3 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-
+						
 						obj.transform.parent = parentObj.transform;
 						obj2.transform.parent = parentObj.transform;
 						obj3.transform.parent = parentObj.transform;
 						parentObj.transform.parent = shotHierarchy.transform;
-
+						
 						Vector3 holder = obj.transform.parent.position;
 						Vector3 holder1 = obj2.transform.parent.position;
 						Vector3 holder2 = obj2.transform.parent.position;
@@ -273,12 +272,12 @@ public class Shooting : MonoBehaviour {
 							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 							obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 							obj3 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-
+							
 							obj.transform.parent = parentObj.transform;
 							obj2.transform.parent = parentObj.transform;
 							obj3.transform.parent = parentObj.transform;
 							parentObj.transform.parent = shotHierarchy.transform;
-
+							
 							Vector3 holder = obj.transform.parent.position;
 							Vector3 holder1 = obj2.transform.parent.position;
 							Vector3 holder2 = obj2.transform.parent.position;
@@ -314,11 +313,11 @@ public class Shooting : MonoBehaviour {
 						//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 						obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 						obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-
+						
 						obj.transform.parent = parentObj.transform;
 						obj2.transform.parent = parentObj.transform;
 						parentObj.transform.parent = shotHierarchy.transform;
-
+						
 						Vector3 holder = obj.transform.parent.position;
 						Vector3 holder1 = obj2.transform.parent.position;
 						
@@ -346,11 +345,11 @@ public class Shooting : MonoBehaviour {
 							//Create the Bullet, set the parent to the Empty Object and offset the position to allow for Wavy-like movement
 							obj = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 							obj2 = Instantiate(prefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-
+							
 							obj.transform.parent = parentObj.transform;
 							obj2.transform.parent = parentObj.transform;
 							parentObj.transform.parent = shotHierarchy.transform;
-
+							
 							Vector3 holder = obj.transform.parent.position;
 							Vector3 holder1 = obj2.transform.parent.position;
 							
@@ -413,23 +412,23 @@ public class Shooting : MonoBehaviour {
 			
 			if (col.collider.tag == "Enemy")
 			{
-
+				
 				int enemyType = col.collider.gameObject.GetComponent<Behaviour>().behaviourInt;
-
+				
 				switch(enemyType)
 				{
-					case 0: 
-						ScoreController.Instance.addScore(1000);
-						break;
-					case 1:
-						ScoreController.Instance.addScore(2000);
-						break;
-					case 2:
-						ScoreController.Instance.addScore(3000);
-						break;
-
+				case 0: 
+					ScoreController.Instance.addScore(1000);
+					break;
+				case 1:
+					ScoreController.Instance.addScore(2000);
+					break;
+				case 2:
+					ScoreController.Instance.addScore(3000);
+					break;
+					
 				}
-
+				
 				Destroy(col.collider.gameObject);
 				
 			}
@@ -446,13 +445,13 @@ public class Shooting : MonoBehaviour {
 		}
 		
 	}
-
+	
 	void createShield()
 	{
-
+		
 		shield = Instantiate(shieldPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 		shield.transform.parent = Player.GetComponent<PlayerMovement>().transform;
-
+		
 		hasShield = true;
 	}
 	public void createAlly()
@@ -483,12 +482,12 @@ public class Shooting : MonoBehaviour {
 		nbAlly = 3;
 		
 	}
-
+	
 	public void setShield()
 	{
 		if (shieldSet != true)
 			createShield();
-	
+		
 		shieldSet = true;
 		hasShield = true;
 	}
