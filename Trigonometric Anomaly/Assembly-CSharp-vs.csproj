@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\3D Menu\CameraControl.cs" />
+     <Compile Include="Assets\Scripts\3D Menu\ExitMenuHandler.cs" />
      <Compile Include="Assets\Scripts\3D Menu\MenuHandler.cs" />
      <Compile Include="Assets\Scripts\3D Menu\MouseLook.cs" />
      <Compile Include="Assets\Scripts\3D Menu\ShopMenuHandler.cs" />

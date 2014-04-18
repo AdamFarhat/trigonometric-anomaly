@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ScoreController : MonoBehaviour {
@@ -30,7 +30,7 @@ public class ScoreController : MonoBehaviour {
 		{
 			_instance = this;
 		}
-		DontDestroyOnLoad(this.gameObject);
+		//DontDestroyOnLoad(this.gameObject);
 	}
 
 	// Use this for initialization

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class GameController : MonoBehaviour 
@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour
 		{
 			_instance = this;
 		}
-		DontDestroyOnLoad(this.gameObject);
+		//DontDestroyOnLoad(this.gameObject);
 	}
 	
 	// Use this for initialization
@@ -161,6 +161,6 @@ public class GameController : MonoBehaviour
 	{
 		camera.GetComponent<GlowEffect>().glowIntensity = 1;
 		Instantiate(GameOverScreen,camera.transform.position - new Vector3(0,15,1),new Quaternion(0,0,0,0));
-		pause ();
+		pause();
 	}
 }
