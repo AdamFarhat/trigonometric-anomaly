@@ -30,6 +30,10 @@ public class MenuHandler : MonoBehaviour
 		renderer.material.color = Color.white;
 	}
 
+	void OnMouseDown()
+	{
+		OpenScene();
+	}
 	
 	public void OpenScene()
 	{
@@ -37,8 +41,4 @@ public class MenuHandler : MonoBehaviour
 			Application.LoadLevel(SceneName);
 	}
 
-	public void ToggleColor()
-	{
-
-	}
 }

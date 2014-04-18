@@ -37,7 +37,7 @@ public class ShopWindow : MonoBehaviour {
 		{
 			_instance = this;
 		}
-		DontDestroyOnLoad(this.gameObject);
+		//DontDestroyOnLoad(this.gameObject);
 	}
 	
 	// Use this for initialization
@@ -54,7 +54,7 @@ public class ShopWindow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () 
-	{//TODO: remove or comment if not complete
+	{
 		if(!menuOpen)
 		{//then open menu!
 			menuOpen = true;

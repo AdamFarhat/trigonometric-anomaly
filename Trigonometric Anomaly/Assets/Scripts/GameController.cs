@@ -24,7 +24,9 @@ public class GameController : MonoBehaviour
 	[SerializeField] public bool Shield = false;
 	[SerializeField] public bool NPCShield = false;
 
+	[SerializeField] GameObject GameOverScreen;
 
+	GameObject camera;
 	
 	private static GameController _instance = null;
 	public static GameController Instance
@@ -51,7 +53,7 @@ public class GameController : MonoBehaviour
 	{
 		next_wave_timer = current_wave_length;
 		
-		GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
 		
 		if(Bombs)
 		{
@@ -153,5 +155,12 @@ public class GameController : MonoBehaviour
 	public void unpause()
 	{
 		Time.timeScale = 1f;
+	}
+
+	public void GameOver()
+	{
+		camera.GetComponent<GlowEffect>().glowIntensity = 1;
+		Instantiate(GameOverScreen,camera.transform.position - new Vector3(0,15,1),new Quaternion(0,0,0,0));
+		pause ();
 	}
 }

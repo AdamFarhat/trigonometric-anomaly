@@ -90,8 +90,9 @@ public class PlayerMovement : MonoBehaviour {
 	{
 		if (collision.gameObject.layer == 11)
 		{
+			GameController.Instance.GameOver();
 				//Destroy(gameObject);
-				GameController.Instance.pause();
+				//GameController.Instance.pause();
 				//Destroy(collision.gameObject);
 
 		}

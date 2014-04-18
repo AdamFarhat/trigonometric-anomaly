@@ -26,8 +26,6 @@ public class EnemySpawning : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		enemyList = new List<GameObject>();
-
 		ScoreController.Instance.EnemyWaveLength = numberOfEnemies;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 		activeBox = GameObject.Find("ActiveBox").GetComponent<BoxCollider>();
@@ -129,7 +127,6 @@ public class EnemySpawning : MonoBehaviour {
 				break;
 			}
 			enemy.GetComponent<Behaviour>().behaviourInt = enemyType;
-			enemyList.Add(enemy);
 		}
 	}
 	
