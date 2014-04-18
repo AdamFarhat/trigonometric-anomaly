@@ -65,13 +65,13 @@ public class Behaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (ShopWindow.Instance.enabled == true)
-		{
-			if (renderer.isVisible)
-			{
-				Destroy(gameObject);
-			}
-		}
+//		if (ShopWindow.Instance.enabled == true)
+//		{
+//			if (renderer.isVisible)
+//			{
+//				Destroy(gameObject);
+//			}
+//		}
 		
 		//		boundaryCheck();
 		
@@ -293,7 +293,8 @@ public class Behaviour : MonoBehaviour {
 		}
 	}
 	
-	void seek(Vector3 position){
+	void seek(Vector3 position)
+	{
 		Vector3 distance = position - gameObject.transform.position;
 		Vector3 acceleration = (distance / distance.magnitude) * maxAcceleration;
 		Vector3 velocity = cVelocity  + (acceleration * timeBetweenUpdates);
@@ -364,6 +365,7 @@ public class Behaviour : MonoBehaviour {
 					ScoreController.Instance.addScore(3000);
 				}
 				Destroy(gameObject);
+				ScoreController.Instance.EnemyKillCount +=1;
 			}
 		}
 		

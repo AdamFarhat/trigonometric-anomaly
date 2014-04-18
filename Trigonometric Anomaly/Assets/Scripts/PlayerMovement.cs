@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
@@ -83,17 +83,17 @@ public class PlayerMovement : MonoBehaviour {
 		currentVelocity += steering/mass;
 
 		Vector3 newPosition = myPosition + currentVelocity * delta_time;
-		this.transform.position = newPosition;
+		transform.position = newPosition;
 	}
 
-	void OnTriggerEnter(Collider collision){
+	void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.layer == 11)
+		{
+				//Destroy(gameObject);
+				GameController.Instance.pause();
+				//Destroy(collision.gameObject);
 
-				if (collision.gameObject.layer == 11)
-				{
-						//Destroy(gameObject);
-						GameController.Instance.pause();
-						//Destroy(collision.gameObject);
-		
-				}
 		}
+	}
 }

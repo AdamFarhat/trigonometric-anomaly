@@ -5,6 +5,8 @@ public class ScoreController : MonoBehaviour {
 	[SerializeField] public int score = 0;
 	[SerializeField] public GUIText score_label = null;
 
+	public int EnemyKillCount{get;set;}
+	public int EnemyWaveLength{get;set;}
 
 	private static ScoreController _instance = null;
 	public static ScoreController Instance
@@ -40,6 +42,12 @@ public class ScoreController : MonoBehaviour {
 	void Update () 
 	{
 	}
+
+	void OnGUI() 
+	{
+		GUI.TextArea(new Rect(10, 10, 150, 100), EnemyKillCount.ToString()+ "/" + EnemyWaveLength.ToString());	
+	}
+
 	public void addScore(int points)
 	{
 		this.score += points;

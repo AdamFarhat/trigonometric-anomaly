@@ -21,4 +21,6 @@ public class EnumScript : MonoBehaviour
 		ExtraLife,
 		Back
 	};
+
+
 }

@@ -151,7 +151,7 @@ public class ShopMenuHandler : MonoBehaviour
 			}
 			case(EnumScript.ShopMenuItems.NPCShield):
 			{
-				price = 40000;
+				price = 0;
 				if (camera.GetComponent<Shooting>().hasAlly != true)
 				{
 					if ((ScoreController.Instance.score - price) >= 0)

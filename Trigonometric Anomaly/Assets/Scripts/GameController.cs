@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameController : MonoBehaviour {
+public class GameController : MonoBehaviour 
+{
 	public enum GameState
 	{
 		PLAYING,
@@ -22,6 +23,8 @@ public class GameController : MonoBehaviour {
 	[SerializeField] public bool SpiralShot = false;
 	[SerializeField] public bool Shield = false;
 	[SerializeField] public bool NPCShield = false;
+
+
 	
 	private static GameController _instance = null;
 	public static GameController Instance
@@ -68,7 +71,7 @@ public class GameController : MonoBehaviour {
 		}
 		if(NPCShield )
 		{
-			camera.GetComponent<Shooting>().tripleShotPurchased = true;
+			camera.GetComponent<Shooting>().createAlly();
 		}
 	}
 	
@@ -79,6 +82,10 @@ public class GameController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Return) && state == GameState.PLAYING)
 		{
 			togglePauseState();
+			//Popup shop
+			Time.timeScale = 0f;
+			state = GameState.SHOPPING;
+			ShopWindow.Instance.enabled = true;
 		} 
 		else if (Input.GetKeyDown(KeyCode.Return) && state == GameState.SHOPPING)
 		{
@@ -106,10 +113,10 @@ public class GameController : MonoBehaviour {
 			current_wave++;
 			wave_label.text = "Wave " + current_wave;
 			
-			//Popup shop
-			Time.timeScale = 0f;
-			state = GameState.SHOPPING;
-			ShopWindow.Instance.enabled = true;
+//			//Popup shop
+//			Time.timeScale = 0f;
+//			state = GameState.SHOPPING;
+//			ShopWindow.Instance.enabled = true;
 		}
 		
 		//Display timer

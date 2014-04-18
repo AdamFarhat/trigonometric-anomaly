@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -46,7 +46,10 @@ public class Shooting : MonoBehaviour {
 	GameObject Player;
 	GameObject shield;
 	GameObject parentObj;
-	
+
+	GameObject AttackingAllies;
+	GameObject ShieldingAllies;
+		
 	GameObject shotHierarchy;
 	
 	Vector3 explosionPosition;
@@ -75,7 +78,12 @@ public class Shooting : MonoBehaviour {
 		wavyMachineGun = 0;
 		doubleWavyMachineGun = 0;
 		homingGun = 0;
+
 		Player = GameObject.FindGameObjectWithTag("Player");
+
+		AttackingAllies = new GameObject("AttackingAllies");
+		ShieldingAllies = GameObject.Find("ShieldingAllies");
+//		ShieldingAllies.transform.parent = Player.GetComponent<PlayerMovement>().transform;
 	}
 	
 	
@@ -448,33 +456,77 @@ public class Shooting : MonoBehaviour {
 	
 	void createShield()
 	{
-		
 		shield = Instantiate(shieldPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
 		shield.transform.parent = Player.GetComponent<PlayerMovement>().transform;
 		
 		hasShield = true;
 	}
+
 	public void createAlly()
 	{
 		if (hasAlly == false)
 		{
 			if(allySet != true)
 			{
-				ally1 = Instantiate(allyPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-				ally1.transform.parent = Player.GetComponent<PlayerMovement>().transform;
-				ally2 = Instantiate(allyPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-				ally2.transform.parent = Player.GetComponent<PlayerMovement>().transform;
-				ally3 = Instantiate(allyPrefab,new Vector3(Player.GetComponent<PlayerMovement>().transform.position.x, Player.GetComponent<PlayerMovement>().transform.position.y ,Player.GetComponent<PlayerMovement>().transform.position.z), Quaternion.identity) as GameObject;
-				ally3.transform.parent = Player.GetComponent<PlayerMovement>().transform;
-				
-				Vector3 holder = ally1.transform.parent.position;
-				Vector3 holder1 = ally2.transform.parent.position;
-				Vector3 holder2 = ally3.transform.parent.position;
-				
-				ally1.transform.position = holder - new Vector3(3.5f,0,3.5f);
-				ally2.transform.position = holder1 + new Vector3(3.5f,0,-3.5f);
-				ally3.transform.position = holder2 + new Vector3(0,0,3.5f);
+
+
+				Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+				//ShieldingAllies.transform.position = playerTransform.position;
+				Vector3 playerPosition = playerTransform.position;
+
+				ally1 = Instantiate(allyPrefab, playerPosition, Quaternion.identity) as GameObject;
+				ally2 = Instantiate(allyPrefab, playerPosition, Quaternion.identity) as GameObject;
+				ally3 = Instantiate(allyPrefab, playerPosition, Quaternion.identity) as GameObject;
+
+				//UnityEditor.EditorApplication.isPaused = true;
+//
+//				ally1.transform.parent = Player.GetComponent<PlayerMovement>().transform;
+//				ally2.transform.parent = Player.GetComponent<PlayerMovement>().transform;
+//				ally3.transform.parent = Player.GetComponent<PlayerMovement>().transform;
+
+				ally1.transform.parent = ShieldingAllies.transform;
+				ally2.transform.parent = ShieldingAllies.transform;
+				ally3.transform.parent = ShieldingAllies.transform;
+
+				//enable communication between allies
+				AllyScript script1 = ally1.GetComponent<AllyScript>();
+				AllyScript script2 = ally2.GetComponent<AllyScript>();
+				AllyScript script3 = ally3.GetComponent<AllyScript>();
+
+				script1.SetAllies(script2,script3);
+				script2.SetAllies(script1,script3);
+				script3.SetAllies(script1,script2);
+
+				Vector3 holder  = ally1.transform.parent.position;
+
+				Quaternion rotation = Quaternion.AngleAxis(120, Vector3.up);
+				Vector3 distance = ally3.transform.parent.forward * 3;
+
+				ally1.transform.position = holder + distance;
+
+				distance = rotation * distance;
+				ally2.transform.position = holder + distance;
+
+				distance = rotation * distance;
+				ally3.transform.position = holder + distance;;
+
 				allySet = true;
+//				Vector3 holder  = playerTransform.position + playerTransform.forward * 5;
+//
+//				float deltaDegree = 120.0f;
+//
+//				Quaternion q = Quaternion.AngleAxis(deltaDegree, playerTransform.up); //creates a rotation matrix about the y-axis
+//
+//				ally1.transform.position = holder;
+//
+//				holder  = q * holder;
+//				ally2.transform.position = holder;
+//
+//				holder  = q * holder;
+//				ally3.transform.position = holder;
+//				ally1.transform.position = holder - new Vector3(3.5f,0,3.5f);
+//				ally2.transform.position = holder1 + new Vector3(3.5f,0,-3.5f);
+//				ally3.transform.position = holder2 + new Vector3(0,0,3.5f)
 			}
 			hasAlly = true;
 		}
@@ -491,12 +543,5 @@ public class Shooting : MonoBehaviour {
 		shieldSet = true;
 		hasShield = true;
 	}
-	
-	
-	//	void OnTriggerEnter (Collider other) {
-	//
-	//						
-	//			
-	//		}
-	
+
 }

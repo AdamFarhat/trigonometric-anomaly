@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemySpawning : MonoBehaviour {
 	
@@ -18,20 +19,28 @@ public class EnemySpawning : MonoBehaviour {
 	const float EDGE_SPAWN_CONSTRAINT = 1.5f;
 	
 	float elapsedTime = 0.0f;
-	float maxTime = 5.0f;	//5.0f
+	float maxTime = 10.0f;	//5.0f
+
 	
 	
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
+		enemyList = new List<GameObject>();
+
+		ScoreController.Instance.EnemyWaveLength = numberOfEnemies;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 		activeBox = GameObject.Find("ActiveBox").GetComponent<BoxCollider>();
 		//correctBoxScale();
 		if(GameObject.Find("Enemy Spawner") == null){
-			enemySpawner = new GameObject("Enemy Spawner");
+			enemySpawner = new GameObject("Enemy Spawer");
+
 			blues = new GameObject("Blues");
 			blues.transform.parent = enemySpawner.transform;
+
 			greens = new GameObject("Greens");
 			greens.transform.parent = enemySpawner.transform;
+
 			reds = new GameObject("Reds");
 			reds.transform.parent = enemySpawner.transform;
 			yellows = new GameObject("Yellows");
@@ -42,21 +51,40 @@ public class EnemySpawning : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		elapsedTime += Time.deltaTime;
 		if(elapsedTime > maxTime){
+			numberOfEnemies = (int)(numberOfEnemies * 1.1);
+			ScoreController.Instance.EnemyWaveLength = numberOfEnemies;
 			spawnEnemies();
 			destroyFarEnemies();
 			elapsedTime = 0.0f;
 		}
+
+
+//		destroyFarEnemies();
+//		if(ScoreController.Instance.EnemyKillCount >= ScoreController.Instance.EnemyWaveLength)
+//		{//new wave
+//			numberOfEnemies = (int)(numberOfEnemies * 1.2);
+//			ScoreController.Instance.EnemyWaveLength = numberOfEnemies;
+//			//destroyFarEnemies();
+//			spawnEnemies();
+//		}
 		
 	}
 	
 	void destroyFarEnemies(){
 		GameObject [] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		foreach (GameObject e in enemies){
-			if(!e.collider.bounds.Intersects(activeBox.bounds)){
+			if(!e.collider.bounds.Intersects(activeBox.bounds))
+			{
 				Destroy(e);
+
+//			//ADAM:
+//				int enemyLoc = Random.Range(0,4);
+//				Vector3 pos = getPosition(enemyLoc);
+//				e.transform.position = pos;
 			}
 		}
 		
@@ -101,6 +129,7 @@ public class EnemySpawning : MonoBehaviour {
 				break;
 			}
 			enemy.GetComponent<Behaviour>().behaviourInt = enemyType;
+			enemyList.Add(enemy);
 		}
 	}
 	
