@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class AsteroidSpawner : MonoBehaviour {
 	[SerializeField] private Vector3 player_position = Vector3.zero;
-	[SerializeField] private float spawn_interval = 5f;
+	[SerializeField] public float spawn_interval = 5f;
 	[SerializeField] private float timer = 0f;
 	[SerializeField] private int min_asteroid = 5;
 	[SerializeField] private int max_asteroid = 15;

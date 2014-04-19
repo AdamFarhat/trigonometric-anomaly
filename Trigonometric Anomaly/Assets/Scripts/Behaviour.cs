@@ -74,26 +74,44 @@ public class Behaviour : MonoBehaviour {
 //		}
 		
 		//		boundaryCheck();
-		
-		switch(enemyType){
-			//Most basic enemy type; random movement.
-		case EnumScript.EnemyType.BLUE_ENEMY:
-			blueBehaviour();
-			break;
-			//Random movement but will try to evade player.
-		case EnumScript.EnemyType.GREEN_ENEMY:
-			greenBehaviour();
-			break;
-			//Flocking behaviour
-		case EnumScript.EnemyType.RED_ENEMY:
-			redBehaviour();
-			break;
-			//Patterned line movement in snake-like fashion.
-		case EnumScript.EnemyType.YELLOW_ENEMY:
-			yellowBehaviour();
-			break;
-		case EnumScript.EnemyType.NONE:
-			break;
+
+		Collider[] colliders = Physics.OverlapSphere (this.transform.position, 2f);
+		Vector3 avoid_direction = Vector3.zero;
+		foreach (Collider c in colliders) 
+		{
+			if(c.gameObject.layer == 8)
+			{
+				Vector3 avoid_point = c.gameObject.transform.position;
+				avoid_direction = avoid_point - this.transform.position;
+				avoid_direction.Normalize();
+			}
+		}
+
+		if (avoid_direction != Vector3.zero) {
+			seek(this.transform.position + avoid_direction * maxVelocity * -1f);
+		}
+		else 
+		{
+			switch(enemyType){
+				//Most basic enemy type; random movement.
+			case EnumScript.EnemyType.BLUE_ENEMY:
+				blueBehaviour();
+				break;
+				//Random movement but will try to evade player.
+			case EnumScript.EnemyType.GREEN_ENEMY:
+				greenBehaviour();
+				break;
+				//Flocking behaviour
+			case EnumScript.EnemyType.RED_ENEMY:
+				redBehaviour();
+				break;
+				//Patterned line movement in snake-like fashion.
+			case EnumScript.EnemyType.YELLOW_ENEMY:
+				yellowBehaviour();
+				break;
+			case EnumScript.EnemyType.NONE:
+				break;
+			}
 		}
 	}
 
@@ -356,17 +374,25 @@ public class Behaviour : MonoBehaviour {
 				{
 					ScoreController.Instance.addScore(1000);
 				}
-				if(behaviourInt == 1)
+				else if(behaviourInt == 1)
 				{
 					ScoreController.Instance.addScore(2000);
 				}
-				if(behaviourInt == 2)
+				else if(behaviourInt == 2)
 				{
-					ScoreController.Instance.addScore(3000);
+					ScoreController.Instance.addScore(4000);
+				}
+				else if(behaviourInt == 3)
+				{
+					ScoreController.Instance.addScore(6000);
 				}
 				Destroy(gameObject);
 				ScoreController.Instance.EnemyKillCount +=1;
 			}
+		}
+
+		if (collision.gameObject.layer == 8) {
+			Destroy(gameObject);
 		}
 		
 		if (collision.gameObject.layer == 13)

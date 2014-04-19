@@ -115,7 +115,18 @@ public class GameController : MonoBehaviour
 				next_wave_timer = current_wave_length;
 				current_wave++;
 				wave_label.text = "Wave " + current_wave;
-				
+
+				if(current_wave % 5 == 0)
+				{
+					EnemySpawning.Instance.numberOfEnemies = 0;
+					AsteroidSpawner.Instance.spawn_interval = 0.5f;
+				}
+				else
+				{
+					EnemySpawning.Instance.numberOfEnemies = EnemySpawning.Instance.initial_numberOfEnemies;
+					AsteroidSpawner.Instance.spawn_interval = 5f;
+				}
+
 	//			//Popup shop
 	//			Time.timeScale = 0f;
 	//			state = GameState.SHOPPING;

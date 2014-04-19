@@ -12,7 +12,8 @@ public class EnemySpawning : MonoBehaviour {
 	GameObject reds;
 	GameObject yellows;
 	private GameObject enemiesHierarchy;
-	int numberOfEnemies = 10;	//10
+	public int initial_numberOfEnemies = 10;
+	public int numberOfEnemies = 10;	//10
 	BoxCollider box;
 	BoxCollider activeBox;
 	const float EDGE_CONSTRAINT = 0.5f;
@@ -21,11 +22,30 @@ public class EnemySpawning : MonoBehaviour {
 	float elapsedTime = 0.0f;
 	float maxTime = 10.0f;	//5.0f
 
+	private static EnemySpawning _instance = null;
+	public static EnemySpawning Instance
+	{
+		get { return _instance; }
+	}
 	
+	void Awake()
+	{
+		if (_instance != null && _instance != this)
+		{
+			Destroy(gameObject);
+			return;
+		}
+		else
+		{
+			_instance = this;
+		}
+		//DontDestroyOnLoad(this.gameObject);
+	}
 	
 	// Use this for initialization
 	void Start () 
 	{
+		initial_numberOfEnemies = numberOfEnemies;
 		ScoreController.Instance.EnemyWaveLength = numberOfEnemies;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 		activeBox = GameObject.Find("ActiveBox").GetComponent<BoxCollider>();
