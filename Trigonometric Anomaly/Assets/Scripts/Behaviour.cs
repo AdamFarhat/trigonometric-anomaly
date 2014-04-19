@@ -368,37 +368,28 @@ public class Behaviour : MonoBehaviour {
 	void OnTriggerEnter(Collider collision)
 	{
 		if (collision.gameObject.tag == "Bullet") {
-			if (lowEnemyHealth <= 0)
-			{
-				if(behaviourInt == 0)
-				{
-					ScoreController.Instance.addScore(1000);
-				}
-				else if(behaviourInt == 1)
-				{
-					ScoreController.Instance.addScore(2000);
-				}
-				else if(behaviourInt == 2)
-				{
-					ScoreController.Instance.addScore(4000);
-				}
-				else if(behaviourInt == 3)
-				{
-					ScoreController.Instance.addScore(6000);
-				}
-				Destroy(gameObject);
-				ScoreController.Instance.EnemyKillCount +=1;
-			}
-			else{
+			if (lowEnemyHealth <= 0) {
+					if (behaviourInt == 0) 
+							ScoreController.Instance.addScore (1000);
+					if (behaviourInt == 1) 
+							ScoreController.Instance.addScore (2000);
+					if (behaviourInt == 2) 
+							ScoreController.Instance.addScore (4000);
+					if (behaviourInt == 3) 
+							ScoreController.Instance.addScore (6000);
+					Destroy (gameObject);
+					ScoreController.Instance.EnemyKillCount += 1;
+			} else {
 				lowEnemyHealth -= 1f;
 			}
-
+		}
 		//Asteroid insta death
 		if (collision.gameObject.layer == 8) {
 			Destroy(gameObject);
 		}
 		
 		//Shield collision also insta death no score added
+
 		if (collision.gameObject.layer == 10)
 		{
 			bool has = false;

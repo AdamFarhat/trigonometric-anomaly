@@ -3,11 +3,12 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Behaviour.cs">
     <Files>
       <File FileName="Assets\Scripts\AsteroidDebris.cs" Line="55" Column="31" />
-      <File FileName="Assets\Scripts\Behaviour.cs" Line="382" Column="6" />
-      <File FileName="Assets\Scripts\AsteroidSpawner.cs" Line="7" Column="46" />
-      <File FileName="Assets\Scripts\GameController.cs" Line="126" Column="44" />
+      <File FileName="Assets\Scripts\Behaviour.cs" Line="381" Column="8" />
+      <File FileName="Assets\Scripts\AsteroidSpawner.cs" Line="27" Column="11" />
+      <File FileName="Assets\Scripts\GameController.cs" Line="115" Column="5" />
       <File FileName="Assets\Scripts\EnemySpawning.cs" Line="82" Column="3" />
-      <File FileName="Assets\Scripts\Shooting.cs" Line="100" Column="49" />
+      <File FileName="Assets\Scripts\Shooting.cs" Line="91" Column="36" />
+      <File FileName="Assets\Scripts\PlayerMovement.cs" Line="91" Column="73" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -18,7 +19,5 @@
       <Breakpoint file="C:\Users\Adam\Desktop\476 Project\trigonometric-anomaly.git\Trigonometric Anomaly\Assets\Scripts\Shooting.cs" line="78" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="Assets\Scripts\Shooting.cs" line="93" offsetX="694" offsetY="1472" expression="colliders" liveUpdate="False" />
-  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
