@@ -74,9 +74,9 @@ public class Shooting : MonoBehaviour {
 		allySet = false;
 		shieldSet = false;
 		numberBombs = 0;
-		MachineGun = 0;
-		wavyMachineGun = 0;
-		doubleWavyMachineGun = 0;
+		MachineGun = 1;
+		wavyMachineGun = 1;
+		doubleWavyMachineGun = 1;
 		homingGun = 0;
 
 		Player = GameObject.FindGameObjectWithTag("Player");
