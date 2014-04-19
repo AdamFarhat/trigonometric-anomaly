@@ -88,7 +88,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void OnTriggerEnter(Collider collision)
 	{
-		if (collision.gameObject.layer == 11)
+		if (collision.gameObject.layer == 0 || collision.gameObject.layer == 8)
 		{
 			GameController.Instance.GameOver();
 				//Destroy(gameObject);

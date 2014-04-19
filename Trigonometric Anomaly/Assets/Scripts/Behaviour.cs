@@ -395,9 +395,8 @@ public class Behaviour : MonoBehaviour {
 			Destroy(gameObject);
 		}
 		
-		if (collision.gameObject.layer == 13)
+		if (collision.gameObject.layer == 0)
 		{
-			
 			bool has = false;
 			Destroy(collision.gameObject);
 			camera.GetComponent<Shooting>().hasShield = false;

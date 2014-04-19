@@ -440,7 +440,7 @@ public class Shooting : MonoBehaviour {
 				Destroy(col.collider.gameObject);
 				
 			}
-			if(col.collider.gameObject.layer == 10)
+			if(col.collider.gameObject.layer == 0)
 			{
 				Destroy(col.collider.gameObject);
 				
