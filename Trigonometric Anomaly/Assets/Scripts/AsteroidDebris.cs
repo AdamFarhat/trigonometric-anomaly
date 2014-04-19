@@ -2,12 +2,13 @@
 using System.Collections;
 
 public class AsteroidDebris : MonoBehaviour {
+	[SerializeField] public int life = 10;
 	[SerializeField] private int min_debris = 2;
 	[SerializeField] private int max_debris = 5;
 	[SerializeField] private int debris_to_spawn = 0;
 	[SerializeField] private GameObject prefab = null;
 	[SerializeField] private GameObject explosion = null;
-	[SerializeField] private float immune_timer = 0.1f;
+	[SerializeField] private float immune_timer = 0.2f;
 	// Use this for initialization
 	void Start () {
 		if ((max_debris - min_debris) > 0)
@@ -29,6 +30,9 @@ public class AsteroidDebris : MonoBehaviour {
 		//A small immunity for creating the debris so they can collide between themselves and split up randomly with unity's collision resolution
 		if (immune_timer < 0f)
 		{
+			life--;	
+			if(life <= 0)
+			{
 				//Spawn other asteroids if the prefab is set
 				if (prefab != null)
 				{
@@ -51,7 +55,9 @@ public class AsteroidDebris : MonoBehaviour {
 					//gameObject.GetComponent<AudioSource>().Play(); TODO: Play sound but Unity freezes, I think it's because the object is destroyed before end of play
 					Instantiate(explosion, this.transform.position, Quaternion.identity);
 				}
+				
 				Destroy(this.gameObject);
+			}
 		}
 	}	
 }
