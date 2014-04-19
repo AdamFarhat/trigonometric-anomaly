@@ -95,7 +95,7 @@ public class EnemySpawning : MonoBehaviour {
 	void destroyFarEnemies(){
 		GameObject [] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		foreach (GameObject e in enemies){
-			if(!e.collider.bounds.Intersects(activeBox.bounds))
+			if(e != null && !e.collider.bounds.Intersects(activeBox.bounds))
 			{
 				Destroy(e);
 

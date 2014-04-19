@@ -22,8 +22,8 @@ public class Behaviour : MonoBehaviour {
 	float fleeVelocity = 2.0f;
 	Vector3 playerPosition;
 	Vector3 cVelocity = new Vector3(0.5f, 0, 0.5f);
-	float maxAcceleration = 8.0f;
-	float maxVelocity = 90.0f;
+	float maxAcceleration = 4.0f;
+	float maxVelocity = 20.0f;
 	float timeBetweenUpdates = 1.0f/2.0f; //1/4
 	float wanderDegAngle;
 	float wanderRadianAngle;
@@ -38,7 +38,7 @@ public class Behaviour : MonoBehaviour {
 	GameObject blues;
 	float alignmentThreshold = 3f;
 	float cohesionThreshold = 25.0f;
-	float separationThreshold = 10f;
+	float separationThreshold = 5f;
 	
 	GameObject camera;
 	int points;
@@ -168,7 +168,7 @@ public class Behaviour : MonoBehaviour {
 		
 		float alignmentWeight = 0.1f;
 		float cohesionWeight = 0.4f;
-		float separationWeight = 0.4f;
+		float separationWeight = 0.6f;
 		
 		playerPosition = GameObject.Find("Player").transform.position;
 		
