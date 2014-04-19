@@ -47,7 +47,10 @@ public class AsteroidDebris : MonoBehaviour {
 
 				//Spawn explosion if there is one
 				if(explosion != null)
+				{
+					//gameObject.GetComponent<AudioSource>().Play(); TODO: Play sound but Unity freezes, I think it's because the object is destroyed before end of play
 					Instantiate(explosion, this.transform.position, Quaternion.identity);
+				}
 				Destroy(this.gameObject);
 		}
 	}	

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -30,7 +30,7 @@ public class AsteroidSpawner : MonoBehaviour {
 		{
 			_instance = this;
 		}
-		DontDestroyOnLoad(this.gameObject);
+		//DontDestroyOnLoad(this.gameObject);
 	}
 
 	// Use this for initialization

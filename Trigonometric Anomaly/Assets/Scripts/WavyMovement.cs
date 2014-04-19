@@ -15,6 +15,7 @@ public class WavyMovement : MonoBehaviour {
 	}
 	
 	void Update () {
+		if ( Time.timeScale <= 0 ) return;
 		//transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime);
 		transform.RotateAround(target.position, Vector3.up, WaveSpeed * Time.deltaTime);
 		

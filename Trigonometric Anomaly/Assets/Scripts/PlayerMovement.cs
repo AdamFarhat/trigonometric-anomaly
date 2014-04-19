@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour {
 		{
 			_instance = this;
 		}
-		DontDestroyOnLoad(this.gameObject);
+		//DontDestroyOnLoad(this.gameObject);
 	}
 
 
@@ -83,6 +83,18 @@ public class PlayerMovement : MonoBehaviour {
 		currentVelocity += steering/mass;
 
 		Vector3 newPosition = myPosition + currentVelocity * delta_time;
-		this.transform.position = newPosition;
+		transform.position = newPosition;
+	}
+
+	void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.layer == 11)
+		{
+			GameController.Instance.GameOver();
+				//Destroy(gameObject);
+				//GameController.Instance.pause();
+				//Destroy(collision.gameObject);
+
+		}
 	}
 }

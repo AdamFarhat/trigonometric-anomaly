@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//Flocking coding:http://gamedevelopment.tutsplus.com/tutorials/the-three-simple-rules-of-flocking-behaviors-alignment-cohesion-and-separation--gamedev-3444
-
 public class Behaviour : MonoBehaviour {
 	
 	//default behaviour int to NONE (size - 1)
@@ -13,6 +11,8 @@ public class Behaviour : MonoBehaviour {
 	Material blueMat;
 	Material greenMat;
 	Material redMat;
+	Material yellowLeaderMat;
+	Material yellowMat;
 	
 	public float lowEnemyHealth;
 	
@@ -21,9 +21,9 @@ public class Behaviour : MonoBehaviour {
 	float fleeAcceleration = 2.0f;
 	float fleeVelocity = 2.0f;
 	Vector3 playerPosition;
-	Vector3 cVelocity = new Vector3(0.1f, 0, 0.1f);
-	float maxAcceleration = 1.0f;
-	float maxVelocity = 5.0f;
+	Vector3 cVelocity = new Vector3(0.5f, 0, 0.5f);
+	float maxAcceleration = 8.0f;
+	float maxVelocity = 90.0f;
 	float timeBetweenUpdates = 1.0f/2.0f; //1/4
 	float wanderDegAngle;
 	float wanderRadianAngle;
@@ -38,14 +38,20 @@ public class Behaviour : MonoBehaviour {
 	GameObject blues;
 	float alignmentThreshold = 3f;
 	float cohesionThreshold = 25.0f;
-	float separationThreshold = 5f;
+	float separationThreshold = 10f;
 	
+	GameObject camera;
+	int points;
+
 	// Use this for initialization
 	void Start () {
-		lowEnemyHealth = 4f;
+		lowEnemyHealth = 2f;
+		camera = GameObject.FindGameObjectWithTag("MainCamera");
 		blueMat = Resources.Load ("Materials/blue") as Material;
 		greenMat = Resources.Load("Materials/green") as Material;
 		redMat = Resources.Load ("Materials/red") as Material;
+		yellowLeaderMat = Resources.Load ("Materials/orange") as Material;
+		yellowMat = Resources.Load ("Materials/yellow") as Material;
 		box = GameObject.Find ("BoundingBox").GetComponent<BoxCollider>();
 		
 		wanderDegAngle = Random.Range (0, 359);
@@ -59,25 +65,53 @@ public class Behaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if (lowEnemyHealth == 0)
-			Destroy(gameObject);
+//		if (ShopWindow.Instance.enabled == true)
+//		{
+//			if (renderer.isVisible)
+//			{
+//				Destroy(gameObject);
+//			}
+//		}
+		
 		//		boundaryCheck();
 		
 		switch(enemyType){
 			//Most basic enemy type; random movement.
-			case EnumScript.EnemyType.BLUE_ENEMY:
-				blueBehaviour();
-				break;
-				//Random movement but will try to evade player.
-			case EnumScript.EnemyType.GREEN_ENEMY:
-				greenBehaviour();
-				break;
-				//Flocking behaviour
-			case EnumScript.EnemyType.RED_ENEMY:
-				redBehaviour();
-				break;
-			case EnumScript.EnemyType.NONE:
-				break;
+		case EnumScript.EnemyType.BLUE_ENEMY:
+			blueBehaviour();
+			break;
+			//Random movement but will try to evade player.
+		case EnumScript.EnemyType.GREEN_ENEMY:
+			greenBehaviour();
+			break;
+			//Flocking behaviour
+		case EnumScript.EnemyType.RED_ENEMY:
+			redBehaviour();
+			break;
+			//Patterned line movement in snake-like fashion.
+		case EnumScript.EnemyType.YELLOW_ENEMY:
+			yellowBehaviour();
+			break;
+		case EnumScript.EnemyType.NONE:
+			break;
+		}
+	}
+
+	void yellowBehaviour(){
+		wander ();
+
+		//Get children
+		for(int i = 0; i < gameObject.transform.childCount; ++i){
+			if(i==0){
+				gameObject.transform.GetChild(i).RotateAround(gameObject.transform.position, Vector3.up, wanderRadianAngle);
+				gameObject.transform.GetChild(i).LookAt(gameObject.transform.position);
+			}
+			else{
+				if((gameObject.transform.GetChild(i-1).position - gameObject.transform.GetChild(i).position).magnitude > 2){
+					gameObject.transform.GetChild(i).LookAt (gameObject.transform.GetChild(i-1));
+					gameObject.transform.GetChild(i).Translate(Vector3.forward * .09f);
+				}
+			}
 		}
 	}
 	
@@ -85,15 +119,15 @@ public class Behaviour : MonoBehaviour {
 		blues = GameObject.Find("Blues");
 		float separationWeight = 0.2f;
 		
-		Vector3 separation = computeSeparation(blues);
-		Vector3 targetDirection = separation * separationWeight;
-		targetDirection.Normalize();
+		//		Vector3 separation = computeSeparation(blues);
+		//		Vector3 targetDirection = separation * separationWeight;
+		//		targetDirection.Normalize();
 		
 		
 		playerPosition = GameObject.Find("Player").transform.position;
 		Vector3 direction = playerPosition - gameObject.transform.position;
 		if(direction.magnitude < MIN_RANGE){
-			seek(playerPosition + targetDirection* maxVelocity*2);
+			seek(playerPosition);// + targetDirection* maxVelocity*2);
 		}else{
 			wander();
 		}
@@ -115,8 +149,12 @@ public class Behaviour : MonoBehaviour {
 		blues = GameObject.Find("Blues");
 		
 		float alignmentWeight = 0.1f;
-		float cohesionWeight = 0.15f;
-		float separationWeight = 0.2f;
+		float cohesionWeight = 0.4f;
+		float separationWeight = 0.4f;
+		
+		playerPosition = GameObject.Find("Player").transform.position;
+		
+		Vector3 direction = playerPosition - gameObject.transform.position;
 		
 		Vector3 alignment = computeAlignment(reds) + computeAlignment(blues);
 		Vector3 cohesion = computeCohesion(reds) + computeCohesion(blues);
@@ -127,11 +165,17 @@ public class Behaviour : MonoBehaviour {
 		if (targetDirection != Vector3.zero)
 		{
 			seek(this.transform.position + targetDirection * maxVelocity);
+			
+			if(direction.magnitude < MIN_RANGE){
+				seek(playerPosition);// + targetDirection* maxVelocity*2);
+			}
+			
 		} 
 		else
 		{
 			wander();
 		}
+		
 	}
 	
 	Vector3 computeAlignment(GameObject group){
@@ -249,13 +293,14 @@ public class Behaviour : MonoBehaviour {
 		}
 	}
 	
-	void seek(Vector3 position){
+	void seek(Vector3 position)
+	{
 		Vector3 distance = position - gameObject.transform.position;
 		Vector3 acceleration = (distance / distance.magnitude) * maxAcceleration;
-		Vector3 velocity = cVelocity + (acceleration * timeBetweenUpdates);
+		Vector3 velocity = cVelocity  + (acceleration * timeBetweenUpdates);
 		this.transform.rotation = Quaternion.Slerp (this.transform.rotation, Quaternion.LookRotation (velocity), Time.deltaTime);
 		if(velocity.magnitude < maxVelocity){
-			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, position, 10f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
+			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, position, 15f * Time.deltaTime);   //gameObject.transform.position + (velocity * timeBetweenUpdates);
 			
 		}
 	}
@@ -274,31 +319,66 @@ public class Behaviour : MonoBehaviour {
 	
 	void intToEnum(){
 		switch(behaviourInt){
-			case 0:	//BLUE
-				enemyType = EnumScript.EnemyType.BLUE_ENEMY;
-				gameObject.renderer.material = blueMat;
-				break;
-			case 1: //GREEN
-				enemyType = EnumScript.EnemyType.GREEN_ENEMY;
-				gameObject.renderer.material = greenMat;
-				break;
-			case 2: //RED
-				enemyType = EnumScript.EnemyType.RED_ENEMY;
-				gameObject.renderer.material = redMat;
-				break;
-			case 3:	//NONE
-				enemyType = EnumScript.EnemyType.NONE;
-				gameObject.renderer.material = redMat;
-				break;
+		case 0:	//BLUE
+			enemyType = EnumScript.EnemyType.BLUE_ENEMY;
+			gameObject.renderer.material = blueMat;
+			break;
+		case 1: //GREEN
+			enemyType = EnumScript.EnemyType.GREEN_ENEMY;
+			gameObject.renderer.material = greenMat;
+			break;
+		case 2: //RED
+			enemyType = EnumScript.EnemyType.RED_ENEMY;
+			gameObject.renderer.material = redMat;
+			break;
+		case 3: //YELLOW
+			enemyType = EnumScript.EnemyType.YELLOW_ENEMY;
+			gameObject.renderer.material = yellowLeaderMat;
+			for(int i = 0; i < gameObject.transform.childCount; ++i){
+				gameObject.transform.GetChild(i).renderer.material = yellowMat;
+			}
+			break;
+		case 4:	//NONE
+			enemyType = EnumScript.EnemyType.NONE;
+			break;
 		}
 		gameObject.transform.name = enemyType.ToString();
 	}
 	
-	//	void OnTriggerEnter(Collider collision)
-	//	{
-	//		if (collision.gameObject.tag == "Bullet") {
-	//			Destroy(gameObject);
-	//				}
-	//	}
+	
+	
+	void OnTriggerEnter(Collider collision)
+	{
+		if (collision.gameObject.tag == "Bullet") {
+			if (lowEnemyHealth <= 0)
+			{
+				if(behaviourInt == 0)
+				{
+					ScoreController.Instance.addScore(1000);
+				}
+				if(behaviourInt == 1)
+				{
+					ScoreController.Instance.addScore(2000);
+				}
+				if(behaviourInt == 2)
+				{
+					ScoreController.Instance.addScore(3000);
+				}
+				Destroy(gameObject);
+				ScoreController.Instance.EnemyKillCount +=1;
+			}
+		}
+		
+		if (collision.gameObject.layer == 13)
+		{
+			
+			bool has = false;
+			Destroy(collision.gameObject);
+			camera.GetComponent<Shooting>().hasShield = false;
+			camera.GetComponent<Shooting>().shieldSet = false;
+			Destroy(gameObject);
+		}
+		
+	}
 }
 
