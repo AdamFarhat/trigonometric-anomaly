@@ -389,13 +389,17 @@ public class Behaviour : MonoBehaviour {
 				Destroy(gameObject);
 				ScoreController.Instance.EnemyKillCount +=1;
 			}
-		}
+			else{
+				lowEnemyHealth -= 1f;
+			}
 
+		//Asteroid insta death
 		if (collision.gameObject.layer == 8) {
 			Destroy(gameObject);
 		}
 		
-		if (collision.gameObject.layer == 0)
+		//Shield collision also insta death no score added
+		if (collision.gameObject.layer == 10)
 		{
 			bool has = false;
 			Destroy(collision.gameObject);

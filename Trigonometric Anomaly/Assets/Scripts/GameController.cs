@@ -113,6 +113,7 @@ public class GameController : MonoBehaviour
 			//New wave spawning, pause game and open shop window
 			if (next_wave_timer <= 0f)
 			{
+				ScoreController.Instance.addScore(1000);
 				next_wave_timer = current_wave_length;
 				current_wave++;
 				wave_label.text = "Wave " + current_wave;
