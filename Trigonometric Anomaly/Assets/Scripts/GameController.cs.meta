@@ -2,7 +2,10 @@ fileFormatVersion: 2
 guid: c4cf148316284fb489e3287a849154ca
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - wave_label: {instanceID: 0}
+  - timer_label: {instanceID: 0}
+  - GameOverScreen: {fileID: 100010, guid: 892dc606ab8c7d247a304e127ad9487a, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

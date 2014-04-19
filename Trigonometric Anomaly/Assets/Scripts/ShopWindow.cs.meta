@@ -2,7 +2,12 @@ fileFormatVersion: 2
 guid: 6f509e77aa2587b468f66eb5481d9749
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - btn_1: {instanceID: 0}
+  - ShopMenuPrefab: {fileID: 100042, guid: c9b688bb59267d146830269a94251519, type: 2}
+  - shieldTexture: {instanceID: 0}
+  - allyTexture: {instanceID: 0}
+  - bombTexture: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
