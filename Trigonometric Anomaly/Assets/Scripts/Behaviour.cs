@@ -376,11 +376,13 @@ public class Behaviour : MonoBehaviour {
 					if (behaviourInt == 2) 
 							ScoreController.Instance.addScore (4000);
 					if (behaviourInt == 3) 
-							ScoreController.Instance.addScore (6000);
+							ScoreController.Instance.addScore (3000);
+					if (behaviourInt == 4)
+							ScoreController.Instance.addScore (100);
 					Destroy (gameObject);
 					ScoreController.Instance.EnemyKillCount += 1;
 			} else {
-				lowEnemyHealth -= 1f;
+//				lowEnemyHealth -= 1f;
 			}
 		}
 		//Asteroid insta death
