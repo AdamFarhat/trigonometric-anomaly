@@ -51,6 +51,7 @@ public class GameController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		Time.timeScale = 1f;
 		next_wave_timer = current_wave_length;
 		
 		camera = GameObject.FindGameObjectWithTag("MainCamera");
